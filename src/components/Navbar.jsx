@@ -23,10 +23,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
             <NavLink to="/" className="flex items-center gap-2 group">
-              <img src="/logo.png" alt="Safety Guild Logo" className="h-10 sm:h-12 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform" />
-              <span className="font-bold text-2xl tracking-tight text-white uppercase sm:block hidden">
-                Safety<span className="text-yellow-500">Guild</span>
-              </span>
+              <img src="/logo.png" alt="Safety Guild Logo" className="h-10 md:h-14 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform py-2" />
             </NavLink>
           </div>
           

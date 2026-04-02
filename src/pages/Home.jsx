@@ -108,9 +108,9 @@ const Home = () => {
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}
              viewport={{ once: true }}
-             className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-black flex justify-center py-4 px-4 sm:px-12"
+             className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-black flex justify-center w-full"
           >
-             <img src="/advertisement-2.png" alt="Safety Guild Promotions" className="w-full h-auto max-h-[80vh] object-contain" />
+             <img src="/advertisement-2.png" alt="Safety Guild Promotions" className="w-full h-auto object-contain" />
           </motion.div>
         </div>
       </section>
