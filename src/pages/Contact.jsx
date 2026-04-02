@@ -90,17 +90,17 @@ const Contact = () => {
                     <span className="text-sm text-yellow-500 font-medium">Download PDF</span>
                   </div>
                 </a>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-8 mt-6">
                   <div>
-                    <span className="block text-slate-400 text-xs uppercase tracking-wider mb-2 font-bold">Brochure Front</span>
+                    <span className="block text-slate-400 text-sm uppercase tracking-wider mb-2 font-bold">Brochure Front</span>
                     <a href="/trifold-front.png" target="_blank" rel="noreferrer">
-                      <img src="/trifold-front.png" alt="Brochure Front" className="w-full rounded-xl border border-slate-700 shadow-xl hover:scale-[1.02] hover:border-yellow-500 transition-all cursor-pointer" />
+                      <img src="/trifold-front.png" alt="Brochure Front" className="w-full h-auto object-contain rounded-xl border border-slate-700 shadow-xl hover:scale-[1.02] hover:border-yellow-500 transition-all cursor-pointer bg-slate-900 p-2" />
                     </a>
                   </div>
                   <div>
-                    <span className="block text-slate-400 text-xs uppercase tracking-wider mb-2 font-bold">Brochure Back</span>
+                    <span className="block text-slate-400 text-sm uppercase tracking-wider mb-2 font-bold">Brochure Back</span>
                     <a href="/trifold-back.png" target="_blank" rel="noreferrer">
-                      <img src="/trifold-back.png" alt="Brochure Back" className="w-full rounded-xl border border-slate-700 shadow-xl hover:scale-[1.02] hover:border-yellow-500 transition-all cursor-pointer" />
+                      <img src="/trifold-back.png" alt="Brochure Back" className="w-full h-auto object-contain rounded-xl border border-slate-700 shadow-xl hover:scale-[1.02] hover:border-yellow-500 transition-all cursor-pointer bg-slate-900 p-2" />
                     </a>
                   </div>
                 </div>

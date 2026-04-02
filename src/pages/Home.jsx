@@ -48,21 +48,14 @@ const Home = () => {
 
           {/* Hero Image */}
           <motion.div 
-            className="lg:w-1/2 relative flex justify-center"
+            className="lg:w-1/2 relative flex justify-center w-full"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative">
+            <div className="relative w-full flex justify-center">
               <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20 rounded-[3rem]"></div>
-              <img src="/advertisement-1.png" alt="Safety Guild Training Banner" className="relative z-10 w-full max-w-md rounded-2xl shadow-2xl border border-slate-700 object-cover" />
-              <div className="absolute -bottom-6 -left-6 bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-xl flex items-center gap-4 z-20">
-                <img src="/logo-alt.jpg" alt="Logo" className="w-12 h-12 rounded-lg" />
-                <div>
-                   <p className="text-white font-bold uppercase text-sm">Certified Training</p>
-                   <p className="text-yellow-500 font-bold text-xs">Exceeds OSHA specs</p>
-                </div>
-              </div>
+              <img src="/advertisement-1.png" alt="Safety Guild Training Banner" className="relative z-10 w-full max-w-lg lg:max-w-none h-auto rounded-2xl shadow-xl border border-slate-700 object-contain max-h-[70vh]" />
             </div>
           </motion.div>
 
@@ -71,10 +64,10 @@ const Home = () => {
 
       {/* Services Overview with Image background mix */}
       <section className="py-24 bg-slate-950 relative overflow-hidden">
-        {/* Background Image Mixed */}
-        <div className="absolute right-0 top-0 w-1/2 h-full opacity-5 pointer-events-none">
-          <img src="/services.jpg" alt="background texture" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 to-transparent"></div>
+        {/* Background Image Mixed cleanly */}
+        <div className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
+          <img src="/services.jpg" alt="background texture" className="w-full h-full object-cover grayscale mix-blend-screen" />
+          <div className="absolute inset-0 bg-slate-950/80"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -110,23 +103,14 @@ const Home = () => {
 
       {/* Advertisement 2 / Featured Promotional Banner */}
       <section className="py-20 bg-slate-900 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800 pb-20">
           <motion.div 
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}
              viewport={{ once: true }}
-             className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800"
+             className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-black flex justify-center py-4 px-4 sm:px-12"
           >
-             <img src="/advertisement-2.png" alt="Safety Guild Promotions" className="w-full h-auto max-h-[600px] object-cover opacity-80" />
-             <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent flex items-end p-8 md:p-16">
-               <div className="max-w-2xl bg-slate-900/80 backdrop-blur-md p-8 rounded-2xl border border-slate-700">
-                 <h3 className="text-3xl font-black text-white uppercase mb-4">Equip Yourself With the Best</h3>
-                 <p className="text-slate-300 mb-6 font-medium text-lg">Never compromise on safety. Get the knowledge to protect yourself and your crew on every climb.</p>
-                 <Link to="/training" className="inline-flex bg-yellow-500 text-slate-900 px-6 py-3 rounded-lg font-bold uppercase transition-transform hover:scale-105 shadow-xl hover:shadow-[0_0_20px_rgba(234,179,8,0.4)] cursor-pointer">
-                    View Certifications <ArrowRight className="ml-2 w-5 h-5" />
-                 </Link>
-               </div>
-             </div>
+             <img src="/advertisement-2.png" alt="Safety Guild Promotions" className="w-full h-auto max-h-[80vh] object-contain" />
           </motion.div>
         </div>
       </section>
