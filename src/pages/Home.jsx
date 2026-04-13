@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section - FIXED */}
       <section className="relative bg-slate-900 border-b border-slate-800 flex items-center justify-center min-h-[85vh] overflow-hidden">
         {/* Background Gradients */}
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-yellow-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -46,16 +46,20 @@ const Home = () => {
             </div>
           </motion.div>
 
-          {/* Hero Image */}
+          {/* Hero Image - FIXED */}
           <motion.div
             className="lg:w-1/2 relative flex justify-center w-full"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative w-full h-[400px] lg:h-[600px] flex items-center justify-center rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl p-4 lg:p-8">
-              <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20 rounded-[3rem]"></div>
-              <img src="/heroSection.png" alt="Safety Guild Training Banner" className="relative z-10 w-full h-full object-contain drop-shadow-2xl" />
+            <div className="relative w-full rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl overflow-hidden">
+              <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20"></div>
+              <img
+                src="/heroSection.png"
+                alt="Safety Guild Training Banner"
+                className="relative z-10 w-full h-auto object-contain drop-shadow-2xl"
+              />
             </div>
           </motion.div>
 
@@ -75,22 +79,30 @@ const Home = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-wider mb-4">Why Safety Guild?</h2>
             <div className="w-24 h-1 bg-yellow-500 mx-auto rounded-full mb-10"></div>
 
+            {/* Flag Image - PERFECTLY FITTED */}
             <motion.div
               initial={{ opacity: 0, y: 15, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="relative mx-auto w-32 md:w-48 group flex justify-center"
+              className="relative mx-auto max-w-xs md:max-w-sm lg:max-w-md group"
             >
               {/* Premium Background Glow */}
-              <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full pointer-events-none group-hover:bg-blue-500/30 transition-colors duration-500"></div>
-              <div className="absolute inset-0 bg-red-500/20 blur-2xl rounded-full pointer-events-none scale-110 group-hover:bg-red-500/30 transition-colors duration-500 translate-x-4"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-red-500/20 to-blue-500/20 blur-2xl rounded-full pointer-events-none group-hover:from-blue-500/30 group-hover:via-red-500/30 group-hover:to-blue-500/30 transition-all duration-500"></div>
 
-              <img
-                src="/flag.jpg"
-                alt="USA Flag"
-                className="relative z-10 w-full h-auto rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-slate-700/50 object-contain grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
-              />
+              {/* Flag Container */}
+              <div className="relative rounded-xl overflow-hidden shadow-2xl border-2 border-white/10 group-hover:border-white/20 transition-all duration-300">
+                <img
+                  src="/flag.jpg"
+                  alt="USA Flag"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                {/* Overlay gradient for better look */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+              </div>
+
+              {/* Optional: Subtle reflection effect */}
+              <div className="absolute -bottom-6 left-0 right-0 h-12 bg-gradient-to-t from-black/20 to-transparent blur-md rounded-full pointer-events-none"></div>
             </motion.div>
           </div>
 
@@ -130,7 +142,7 @@ const Home = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-slate-900/50 flex items-center justify-center w-full"
+            className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-slate-900/50"
           >
             <div className="absolute inset-0 bg-yellow-500/5 blur-[100px]"></div>
             <img
