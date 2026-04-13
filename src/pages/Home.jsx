@@ -13,9 +13,9 @@ const Home = () => {
         <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col lg:flex-row items-center gap-12">
-          
+
           {/* Hero Content */}
-          <motion.div 
+          <motion.div
             className="lg:w-1/2 text-center lg:text-left"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -25,16 +25,16 @@ const Home = () => {
               <HardHat className="w-4 h-4" />
               <span>Premier Telecom Safety Training</span>
             </div>
-            
+
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight mb-6 uppercase">
               Climb Higher. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">Work Safer.</span>
             </h1>
-            
+
             <p className="mt-4 text-xl text-slate-300 mb-10 font-medium leading-relaxed max-w-lg mx-auto lg:mx-0">
               Industrial strength training for telecom construction workers, foremen, and technicians. Get certified with the most trusted authority in the field.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link to="/training" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group">
                 View Courses
@@ -47,15 +47,15 @@ const Home = () => {
           </motion.div>
 
           {/* Hero Image */}
-          <motion.div 
+          <motion.div
             className="lg:w-1/2 relative flex justify-center w-full"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative w-full flex justify-center">
+            <div className="relative w-full h-[400px] lg:h-[600px] flex items-center justify-center rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl p-4 lg:p-8">
               <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20 rounded-[3rem]"></div>
-              <img src="/advertisement-1.png" alt="Safety Guild Training Banner" className="relative z-10 w-full max-w-lg lg:max-w-none h-auto rounded-2xl shadow-xl border border-slate-700 object-contain max-h-[70vh]" />
+              <img src="/heroSection.png" alt="Safety Guild Training Banner" className="relative z-10 w-full h-full object-contain drop-shadow-2xl" />
             </div>
           </motion.div>
 
@@ -73,16 +73,38 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-wider mb-4">Why Safety Guild?</h2>
-            <div className="w-24 h-1 bg-yellow-500 mx-auto rounded-full"></div>
+            <div className="w-24 h-1 bg-yellow-500 mx-auto rounded-full mb-10"></div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 15, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative mx-auto w-32 md:w-48 group flex justify-center"
+            >
+              {/* Premium Background Glow */}
+              <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full pointer-events-none group-hover:bg-blue-500/30 transition-colors duration-500"></div>
+              <div className="absolute inset-0 bg-red-500/20 blur-2xl rounded-full pointer-events-none scale-110 group-hover:bg-red-500/30 transition-colors duration-500 translate-x-4"></div>
+
+              <img
+                src="/flag.jpg"
+                alt="USA Flag"
+                className="relative z-10 w-full h-auto rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-slate-700/50 object-contain grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
+              />
+            </motion.div>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: ShieldCheck, title: "Industry Standard", desc: "Our certifications exceed OSHA requirements and are recognized nationwide." },
-              { icon: HardHat, title: "Hands-on Experience", desc: "Learn from Austin Lawler with real-world scenarios and comprehensive field techniques." },
+              {
+                icon: ShieldCheck, title: "Quality Standards", desc: "Our training program meets or exceeds OSHA and applicable industry standards that are recognized and accepted nationwide."
+              },
+              {
+                icon: HardHat, title: "Hands-on Experience", desc: "Learn from Austin Lawler and his team with real - world scenarios and comprehensive field techniques."
+              },
               { icon: TrendingUp, title: "Career Advancement", desc: "Empower your crew. Our training increases site efficiency and confidence." }
             ].map((feature, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -101,16 +123,21 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Advertisement 2 / Featured Promotional Banner */}
-      <section className="py-20 bg-slate-900 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800 pb-20">
-          <motion.div 
-             initial={{ opacity: 0, scale: 0.95 }}
-             whileInView={{ opacity: 1, scale: 1 }}
-             viewport={{ once: true }}
-             className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-black flex justify-center w-full"
+      {/* Advertisement 2 / Featured Promotional Banner - FIXED */}
+      <section className="py-12 bg-slate-900 border-t border-slate-800">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-slate-800 bg-slate-900/50 flex items-center justify-center w-full"
           >
-             <img src="/advertisement-2.png" alt="Safety Guild Promotions" className="w-full h-auto object-contain" />
+            <div className="absolute inset-0 bg-yellow-500/5 blur-[100px]"></div>
+            <img
+              src="/home.png"
+              alt="Safety Guild Promotions"
+              className="relative z-10 w-full h-auto object-contain"
+            />
           </motion.div>
         </div>
       </section>
