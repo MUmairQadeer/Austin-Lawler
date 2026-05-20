@@ -1,39 +1,119 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Image as ImageIcon, Calendar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Image as ImageIcon, Calendar, Lock, Unlock, Upload, CheckCircle2 } from 'lucide-react';
 import { client, isSanityConfigured } from '../sanityClient';
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      if (!isSanityConfigured) {
-        setLoading(false);
-        return;
-      }
-      
-      try {
-        // Fetch gallery images and get their absolute URLs directly in the query
-        const query = `*[_type == "gallery"] | order(_createdAt desc) {
-          _id,
-          title,
-          date,
-          "imageUrl": image.asset->url
-        }`;
-        
-        const data = await client.fetch(query);
-        setImages(data);
-      } catch (error) {
-        console.error("Error fetching gallery images:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Admin States
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  
+  // Upload States
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploadTitle, setUploadTitle] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
+  const fetchImages = async () => {
+    if (!isSanityConfigured) {
+      setLoading(false);
+      return;
+    }
+    
+    try {
+      const query = `*[_type == "gallery"] | order(_createdAt desc) {
+        _id,
+        title,
+        date,
+        "imageUrl": image.asset->url
+      }`;
+      
+      const data = await client.fetch(query);
+      setImages(data);
+    } catch (error) {
+      console.error("Error fetching gallery images:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchImages();
+
+    // Check if URL has ?admin=true
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('admin') === 'true') {
+      setShowAdminLogin(true);
+    }
   }, []);
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    const correctPasscode = import.meta.env.VITE_ADMIN_PASSCODE || 'wvh6vay2';
+    if (adminPassword === correctPasscode) {
+      setIsAdmin(true);
+      setShowAdminLogin(false);
+      setAdminPassword('');
+    } else {
+      alert('Incorrect admin passcode.');
+    }
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!uploadFile) {
+      setUploadError("Please select an image first.");
+      return;
+    }
+    if (!uploadTitle.trim()) {
+      setUploadError("Please enter a title.");
+      return;
+    }
+
+    setUploadError('');
+    setIsUploading(true);
+
+    try {
+      // 1. Upload the image file to Sanity Assets
+      const asset = await client.assets.upload('image', uploadFile, {
+        filename: uploadFile.name
+      });
+
+      // 2. Create the Gallery document linking the uploaded asset
+      await client.create({
+        _type: 'gallery',
+        title: uploadTitle,
+        date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+        image: {
+          _type: 'image',
+          asset: {
+            _type: "reference",
+            _ref: asset._id
+          }
+        }
+      });
+
+      // 3. Reset form and refresh gallery
+      setUploadFile(null);
+      setUploadTitle('');
+      setUploadSuccess(true);
+      
+      // Refresh images to show the new one instantly
+      await fetchImages();
+
+      setTimeout(() => setUploadSuccess(false), 4000);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setUploadError("Failed to upload image. Please check your connection.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 py-16 relative overflow-hidden flex flex-col">
@@ -44,7 +124,7 @@ const Gallery = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-12">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16 relative">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tight mb-6">
               Training <span className="text-yellow-500">Gallery</span>
@@ -53,8 +133,134 @@ const Gallery = () => {
               Moments from our live training sessions, certifications, and on-site rescues.
             </p>
           </motion.div>
+
+          {/* Hidden Admin Trigger */}
+          <button 
+            onClick={() => isAdmin ? setIsAdmin(false) : setShowAdminLogin(true)}
+            className="absolute top-0 right-0 p-2 text-slate-700 hover:text-yellow-500/50 transition-colors"
+            title="Admin Portal"
+          >
+            {isAdmin ? <Unlock className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+          </button>
         </div>
 
+        {/* Admin Login Dialog */}
+        <AnimatePresence>
+          {showAdminLogin && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -10 }}
+              className="max-w-md mx-auto mb-12 p-6 bg-slate-950 border border-slate-800 rounded-2xl"
+            >
+              <form onSubmit={handleAdminLogin} className="space-y-4">
+                <div className="flex items-center gap-2 text-white font-bold mb-2">
+                  <Lock className="w-5 h-5 text-yellow-500" />
+                  <span>Gallery Admin Portal</span>
+                </div>
+                <input 
+                  type="password" 
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                  placeholder="Enter admin passcode..."
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                />
+                <div className="flex gap-4">
+                  <button type="submit" className="flex-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold py-2 rounded-lg">
+                    Unlock Portal
+                  </button>
+                  <button type="button" onClick={() => setShowAdminLogin(false)} className="px-4 py-2 border border-slate-700 text-slate-400 rounded-lg hover:text-white">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Admin Upload Panel */}
+        <AnimatePresence>
+          {isAdmin && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }} 
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-16 p-8 bg-slate-950/60 border border-yellow-500/20 rounded-2xl overflow-hidden"
+            >
+              <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <Upload className="w-5 h-5 text-yellow-500" />
+                    Upload New Image
+                  </h2>
+                </div>
+                <button 
+                  onClick={() => setIsAdmin(false)}
+                  className="text-sm border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg"
+                >
+                  Exit Admin Mode
+                </button>
+              </div>
+
+              {uploadSuccess && (
+                <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl flex items-center gap-3 text-green-400 font-bold">
+                  <CheckCircle2 className="w-5 h-5" />
+                  Image successfully uploaded and added to the gallery!
+                </div>
+              )}
+
+              {uploadError && (
+                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 font-bold">
+                  {uploadError}
+                </div>
+              )}
+
+              <form onSubmit={handleUpload} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Select Image File</label>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={(e) => setUploadFile(e.target.files[0])}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-500/10 file:text-yellow-500 hover:file:bg-yellow-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Image Title / Description</label>
+                    <input 
+                      type="text" 
+                      value={uploadTitle}
+                      onChange={(e) => setUploadTitle(e.target.value)}
+                      placeholder="e.g., Tower Rescue Course 2026"
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                    />
+                  </div>
+                </div>
+                
+                <button 
+                  type="submit" 
+                  disabled={isUploading}
+                  className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold py-3 px-8 rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isUploading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-slate-900"></div>
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-5 h-5" />
+                      Upload to Gallery
+                    </>
+                  )}
+                </button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Gallery Grid */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mb-4"></div>
