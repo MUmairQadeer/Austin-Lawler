@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ExternalLink, CheckCircle2, ChevronRight, Lock, Mail, HardHat, Sparkles, ArrowRight } from 'lucide-react';
+import { client, isSanityConfigured } from '../sanityClient';
 
 const Training = () => {
   const [email, setEmail] = useState('');
@@ -16,15 +17,42 @@ const Training = () => {
     { name: "OSHA 10", desc: "Standard 10-hour training covering general safety and health hazards for construction workers.", type: "In-Person & Online" },
   ];
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
       setError('Please enter a valid email address.');
       return;
     }
     setError('');
-    setIsSubmitted(true);
-    setEmail('');
+    
+    const subData = {
+      email,
+      source: 'Training',
+      date: new Date().toLocaleDateString()
+    };
+
+    try {
+      // Save to Sanity if configured
+      if (isSanityConfigured) {
+        await client.create({
+          _type: 'subscriber',
+          ...subData
+        });
+      }
+
+      // Send Email Notification
+      await fetch('/api/subscribe-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(subData),
+      });
+
+      setIsSubmitted(true);
+      setEmail('');
+    } catch (err) {
+      console.error("Subscription failed:", err);
+      setError("Failed to subscribe. Please try again later.");
+    }
   };
 
   return (

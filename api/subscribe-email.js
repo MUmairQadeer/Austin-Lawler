@@ -1,0 +1,70 @@
+import { Resend } from 'resend';
+
+// Use environment variable first, then fallback to user's provided API key
+const resend = new Resend(process.env.RESEND_API_KEY || 're_5JnBpwcD_Aq2BNwCbMJRMefTqbdHE3LTV');
+
+export default async function handler(req, res) {
+  // CORS configurations
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // Preflight check
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { email, source } = req.body;
+
+  if (!email || !source) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  try {
+    const data = await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'muhammadumair.coding@gmail.com',
+      subject: `New Subscriber from ${source} page!`,
+      html: `
+        <div style="font-family: sans-serif; padding: 20px; color: #0f172a; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 8px;">
+          <h2 style="color: #eab308; margin-bottom: 5px;">New Waitlist Subscriber</h2>
+          <p style="color: #64748b; margin-top: 0; font-size: 14px;">Someone just subscribed to the ${source} waitlist.</p>
+          <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+          
+          <table style="width: 100%; font-size: 15px; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 6px 0; font-weight: bold; width: 120px;">Email:</td>
+              <td style="padding: 6px 0;">${email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: bold;">Source Page:</td>
+              <td style="padding: 6px 0;">${source}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: bold;">Date:</td>
+              <td style="padding: 6px 0;">${new Date().toLocaleString()}</td>
+            </tr>
+          </table>
+          
+          <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+          <p style="font-size: 12px; color: #94a3b8; text-align: center;">
+            This subscriber has also been saved to your Sanity.io database.
+          </p>
+        </div>
+      `
+    });
+
+    return res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error("Email send error:", error);
+    return res.status(500).json({ error: error.message });
+  }
+}
