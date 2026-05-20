@@ -74,7 +74,7 @@ const Reviews = () => {
   const fetchReviews = () => {
     if (isSanityConfigured) {
       // Query published reviews from Sanity.io (filter out drafts)
-      const query = '*[_type == "testimonial" && !(_id in drafts)] | order(date desc, _createdAt desc)';
+      const query = '*[_type == "testimonial" && !(_id in path("drafts.**"))] | order(date desc, _createdAt desc)';
       client.fetch(query)
         .then((data) => {
           if (data && data.length > 0) {
@@ -103,7 +103,7 @@ const Reviews = () => {
   const fetchDrafts = () => {
     if (!isSanityConfigured) return;
     // Query all draft (unapproved) testimonials
-    const query = '*[_type == "testimonial" && _id in drafts] | order(_createdAt desc)';
+    const query = '*[_type == "testimonial" && _id in path("drafts.**")] | order(_createdAt desc)';
     client.fetch(query)
       .then((data) => {
         const mappedDrafts = data.map(item => ({
