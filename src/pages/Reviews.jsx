@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Lock, Unlock, Eye, Trash2, Check, Edit2 } from 'lucide-react';
 import ReviewCard from '../components/ReviewCard';
 import StarRating from '../components/StarRating';
 import { client, isSanityConfigured } from '../sanityClient';
@@ -50,19 +50,34 @@ const defaultReviews = [
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [drafts, setDrafts] = useState([]);
   const [formData, setFormData] = useState({ name: '', jobTitle: '', rating: 0, text: '' });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+
+  // Admin states
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
   
   // Load reviews on mount
   useEffect(() => {
+    fetchReviews();
+    
+    // Check if URL has ?admin=true
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('admin') === 'true') {
+      setShowAdminLogin(true);
+    }
+  }, []);
+
+  const fetchReviews = () => {
     if (isSanityConfigured) {
       // Query published reviews from Sanity.io (filter out drafts)
       const query = '*[_type == "testimonial" && !(_id in drafts)] | order(date desc, _createdAt desc)';
       client.fetch(query)
         .then((data) => {
           if (data && data.length > 0) {
-            // Map Sanity schema fields to frontend fields if they differ slightly
             const mappedReviews = data.map(item => ({
               id: item._id,
               name: item.name,
@@ -83,7 +98,26 @@ const Reviews = () => {
     } else {
       loadLocalStorageReviews();
     }
-  }, []);
+  };
+
+  const fetchDrafts = () => {
+    if (!isSanityConfigured) return;
+    // Query all draft (unapproved) testimonials
+    const query = '*[_type == "testimonial" && _id in drafts] | order(_createdAt desc)';
+    client.fetch(query)
+      .then((data) => {
+        const mappedDrafts = data.map(item => ({
+          id: item._id,
+          name: item.name,
+          jobTitle: item.jobTitle,
+          rating: item.rating,
+          text: item.text,
+          date: item.date || new Date(item._createdAt).toLocaleDateString()
+        }));
+        setDrafts(mappedDrafts);
+      })
+      .catch((err) => console.error("Error fetching drafts:", err));
+  };
 
   const loadLocalStorageReviews = () => {
     const saved = localStorage.getItem('sg_reviews');
@@ -96,6 +130,68 @@ const Reviews = () => {
     } else {
       setReviews(defaultReviews);
       localStorage.setItem('sg_reviews', JSON.stringify(defaultReviews));
+    }
+  };
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    const correctPasscode = import.meta.env.VITE_ADMIN_PASSCODE || 'wvh6vay2';
+    if (adminPassword === correctPasscode) {
+      setIsAdmin(true);
+      setShowAdminLogin(false);
+      setAdminPassword('');
+      fetchDrafts();
+    } else {
+      alert('Incorrect admin passcode.');
+    }
+  };
+
+  const handleDraftChange = (id, field, value) => {
+    setDrafts(prev => prev.map(draft => {
+      if (draft.id === id) {
+        return { ...draft, [field]: value };
+      }
+      return draft;
+    }));
+  };
+
+  const handlePublish = async (draft) => {
+    if (!isSanityConfigured) return;
+    const publishedId = draft.id.replace('drafts.', '');
+    
+    try {
+      // In Sanity, publishing is done by creating the document without "drafts." prefix and deleting the draft
+      await client.transaction()
+        .createOrReplace({
+          _id: publishedId,
+          _type: 'testimonial',
+          name: draft.name,
+          jobTitle: draft.jobTitle,
+          rating: parseInt(draft.rating),
+          text: draft.text,
+          date: draft.date || new Date().toLocaleDateString()
+        })
+        .delete(draft.id)
+        .commit();
+      
+      // Refresh both lists
+      fetchDrafts();
+      fetchReviews();
+    } catch (err) {
+      console.error("Publish transaction failed:", err);
+      alert("Failed to publish review. Check your connection.");
+    }
+  };
+
+  const handleDeleteDraft = async (id) => {
+    if (!isSanityConfigured) return;
+    if (window.confirm("Are you sure you want to delete this testimonial?")) {
+      try {
+        await client.delete(id);
+        fetchDrafts();
+      } catch (err) {
+        console.error("Delete draft failed:", err);
+      }
     }
   };
 
@@ -158,6 +254,12 @@ const Reviews = () => {
 
         setSuccess(true);
         setFormData({ name: '', jobTitle: '', rating: 0, text: '' });
+        
+        // If logged in as admin, refresh the drafts list instantly
+        if (isAdmin) {
+          fetchDrafts();
+        }
+
         setTimeout(() => setSuccess(false), 5000);
       } catch (err) {
         console.error("Sanity creation failed:", err);
@@ -189,7 +291,7 @@ const Reviews = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16 relative">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tight mb-6">
               Client & Student <span className="text-yellow-500">Testimonials</span>
@@ -198,7 +300,162 @@ const Reviews = () => {
               See what professionals are saying about our training programs, or leave your own feedback.
             </p>
           </motion.div>
+
+          {/* Hidden/Subtle Admin Trigger */}
+          <button 
+            onClick={() => isAdmin ? setIsAdmin(false) : setShowAdminLogin(true)}
+            className="absolute top-0 right-0 p-2 text-slate-700 hover:text-yellow-500/50 transition-colors"
+            title="Moderation Portal"
+          >
+            {isAdmin ? <Unlock className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+          </button>
         </div>
+
+        {/* Admin Login Dialog */}
+        <AnimatePresence>
+          {showAdminLogin && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -10 }}
+              className="max-w-md mx-auto mb-12 p-6 bg-slate-950 border border-slate-800 rounded-2xl"
+            >
+              <form onSubmit={handleAdminLogin} className="space-y-4">
+                <div className="flex items-center gap-2 text-white font-bold mb-2">
+                  <Lock className="w-5 h-5 text-yellow-500" />
+                  <span>Testimonial Moderation Portal</span>
+                </div>
+                <input 
+                  type="password" 
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                  placeholder="Enter admin passcode..."
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                />
+                <div className="flex gap-4">
+                  <button 
+                    type="submit" 
+                    className="flex-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold py-2 rounded-lg"
+                  >
+                    Unlock Panel
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowAdminLogin(false)}
+                    className="px-4 py-2 border border-slate-700 text-slate-400 rounded-lg hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Admin Moderation Panel Workspace */}
+        <AnimatePresence>
+          {isAdmin && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }} 
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-16 p-8 bg-slate-950/60 border border-yellow-500/20 rounded-2xl overflow-hidden"
+            >
+              <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <Unlock className="w-5 h-5 text-yellow-500" />
+                    Pending Testimonials ({drafts.length})
+                  </h2>
+                  <p className="text-sm text-slate-400 mt-1">Review, edit, and publish draft submissions below.</p>
+                </div>
+                <button 
+                  onClick={() => setIsAdmin(false)}
+                  className="text-sm border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg"
+                >
+                  Exit Admin Mode
+                </button>
+              </div>
+
+              {drafts.length === 0 ? (
+                <p className="text-slate-500 text-center py-6">No pending testimonials to review.</p>
+              ) : (
+                <div className="space-y-6">
+                  {drafts.map((draft) => (
+                    <motion.div 
+                      key={draft.id} 
+                      layout
+                      className="p-6 bg-slate-900 border border-slate-800 rounded-xl space-y-4"
+                    >
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Full Name</label>
+                          <input 
+                            type="text" 
+                            className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white text-sm focus:border-yellow-500 focus:outline-none"
+                            value={draft.name}
+                            onChange={(e) => handleDraftChange(draft.id, 'name', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Job / Company</label>
+                          <input 
+                            type="text" 
+                            className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white text-sm focus:border-yellow-500 focus:outline-none"
+                            value={draft.jobTitle}
+                            onChange={(e) => handleDraftChange(draft.id, 'jobTitle', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Rating</label>
+                          <select 
+                            className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white text-sm focus:border-yellow-500 focus:outline-none"
+                            value={draft.rating}
+                            onChange={(e) => handleDraftChange(draft.id, 'rating', parseInt(e.target.value))}
+                          >
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Testimonial Content</label>
+                        <textarea 
+                          rows="3" 
+                          className="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-white text-sm focus:border-yellow-500 focus:outline-none resize-none"
+                          value={draft.text}
+                          onChange={(e) => handleDraftChange(draft.id, 'text', e.target.value)}
+                        ></textarea>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-2 border-t border-slate-800/50">
+                        <span className="text-xs text-slate-500">Submitted: {draft.date}</span>
+                        <div className="flex gap-3">
+                          <button 
+                            onClick={() => handlePublish(draft)}
+                            className="bg-green-600 hover:bg-green-500 text-white font-bold px-4 py-2 rounded text-xs flex items-center gap-1 uppercase tracking-wider"
+                          >
+                            <Check className="w-3.5 h-3.5" /> Approve & Publish
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteDraft(draft.id)}
+                            className="bg-red-950 hover:bg-red-900 border border-red-800 text-red-400 font-bold px-4 py-2 rounded text-xs flex items-center gap-1 uppercase tracking-wider"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" /> Delete
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <div className="grid lg:grid-cols-3 gap-12">
           
