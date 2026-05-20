@@ -8,6 +8,7 @@ import Verification from './pages/Verification';
 import Store from './pages/Store';
 import Reviews from './pages/Reviews';
 import Contact from './pages/Contact';
+import Gallery from './pages/Gallery';
 
 // Helper component to scroll to top on route change
 const ScrollToTop = () => {
@@ -34,6 +35,7 @@ function App() {
             <Route path="/store" element={<Store />} />
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/gallery" element={<Gallery />} />
           </Routes>
         </main>
         <Footer />
