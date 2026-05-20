@@ -247,7 +247,7 @@ const Reviews = () => {
       };
 
       try {
-        await client.create(newDoc);
+        await client.createIfNotExists(newDoc);
         
         // Trigger email notification in background
         sendEmailNotification(testimonialData);
