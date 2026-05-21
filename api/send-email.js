@@ -60,7 +60,7 @@ export default async function handler(req, res) {
           
           <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
           <p style="font-size: 12px; color: #94a3b8; text-align: center;">
-            To publish this testimonial live on the website, go to your Sanity.io studio dashboard and click "Publish".
+            To publish this testimonial live on the website, go to your site with "?admin=true" added to the URL and enter your password to edit and approve.
           </p>
         </div>
       `

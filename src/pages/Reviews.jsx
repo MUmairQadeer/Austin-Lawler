@@ -301,14 +301,7 @@ const Reviews = () => {
             </p>
           </motion.div>
 
-          {/* Hidden/Subtle Admin Trigger */}
-          <button 
-            onClick={() => isAdmin ? setIsAdmin(false) : setShowAdminLogin(true)}
-            className="absolute top-0 right-0 p-2 text-slate-700 hover:text-yellow-500/50 transition-colors"
-            title="Moderation Portal"
-          >
-            {isAdmin ? <Unlock className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
-          </button>
+          {/* Admin triggered via ?admin=true URL parameter */}
         </div>
 
         {/* Admin Login Dialog */}
@@ -493,7 +486,7 @@ const Reviews = () => {
                >
                  <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
                  <h3 className="text-xl font-bold text-white mb-2">Thank you for your feedback!</h3>
-                 <p className="text-green-200 text-sm">Your testimonial has been published.</p>
+                 <p className="text-green-200 text-sm">Thank you for submitting! Admin may correct grammar mistakes. After approval, your testimonial will be published.</p>
                  <button 
                   onClick={() => setSuccess(false)}
                   className="mt-6 text-sm underline text-green-400 hover:text-green-300"

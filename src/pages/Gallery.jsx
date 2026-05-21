@@ -134,14 +134,7 @@ const Gallery = () => {
             </p>
           </motion.div>
 
-          {/* Hidden Admin Trigger */}
-          <button 
-            onClick={() => isAdmin ? setIsAdmin(false) : setShowAdminLogin(true)}
-            className="absolute top-0 right-0 p-2 text-slate-700 hover:text-yellow-500/50 transition-colors"
-            title="Admin Portal"
-          >
-            {isAdmin ? <Unlock className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
-          </button>
+          {/* Hidden Admin Trigger removed, access via ?admin=true */}
         </div>
 
         {/* Admin Login Dialog */}
