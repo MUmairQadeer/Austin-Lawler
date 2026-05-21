@@ -58,6 +58,8 @@ const Home = () => {
               <img
                 src="/heroSection.png"
                 alt="Safety Guild Training Banner"
+                width="1200"
+                height="800"
                 className="relative z-10 w-full h-auto object-contain drop-shadow-2xl"
               />
             </div>
@@ -70,7 +72,7 @@ const Home = () => {
       <section className="py-24 bg-slate-950 relative overflow-hidden">
         {/* Background Image Mixed cleanly */}
         <div className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
-          <img src="/services.jpg" alt="background texture" loading="lazy" className="w-full h-full object-cover grayscale mix-blend-screen" />
+          <img src="/services.jpg" alt="background texture" width="1920" height="1080" loading="lazy" className="w-full h-full object-cover grayscale mix-blend-screen" />
           <div className="absolute inset-0 bg-slate-950/80"></div>
         </div>
 
@@ -95,6 +97,8 @@ const Home = () => {
                 <img
                   src="/flag.jpg"
                   alt="USA Flag"
+                  width="400"
+                  height="300"
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -129,7 +133,7 @@ const Home = () => {
                   <feature.icon className="w-8 h-8 text-yellow-500" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-slate-400 leading-relaxed">{feature.desc}</p>
+                <p className="text-slate-300 leading-relaxed">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -149,6 +153,8 @@ const Home = () => {
             <img
               src="/home.png"
               alt="Safety Guild Promotions"
+              width="800"
+              height="400"
               loading="lazy"
               className="relative z-10 w-full h-auto object-contain"
             />

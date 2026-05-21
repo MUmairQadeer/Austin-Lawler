@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://autin-l.vercel.app/sitemap.xml
