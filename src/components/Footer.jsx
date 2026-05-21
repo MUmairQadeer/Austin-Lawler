@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="inline-block mb-6 hover:scale-105 transition-transform">
-              <img src="/logo.png" alt="Safety Guild Logo" className="h-14 md:h-16 w-auto object-contain" />
+              <img src="/logo.png" alt="Safety Guild Logo" loading="lazy" className="h-14 md:h-16 w-auto object-contain" />
             </Link>
             <p className="text-slate-400 max-w-sm mb-6">
               Premier Telecom & Tower Safety Training. We equip construction workers, tech professionals, and foremen with the knowledge they need to climb higher and work safer.

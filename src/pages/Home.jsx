@@ -70,7 +70,7 @@ const Home = () => {
       <section className="py-24 bg-slate-950 relative overflow-hidden">
         {/* Background Image Mixed cleanly */}
         <div className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
-          <img src="/services.jpg" alt="background texture" className="w-full h-full object-cover grayscale mix-blend-screen" />
+          <img src="/services.jpg" alt="background texture" loading="lazy" className="w-full h-full object-cover grayscale mix-blend-screen" />
           <div className="absolute inset-0 bg-slate-950/80"></div>
         </div>
 
@@ -95,6 +95,7 @@ const Home = () => {
                 <img
                   src="/flag.jpg"
                   alt="USA Flag"
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 {/* Overlay gradient for better look */}
@@ -148,6 +149,7 @@ const Home = () => {
             <img
               src="/home.png"
               alt="Safety Guild Promotions"
+              loading="lazy"
               className="relative z-10 w-full h-auto object-contain"
             />
           </motion.div>
