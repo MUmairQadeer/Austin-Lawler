@@ -93,14 +93,14 @@ const Contact = () => {
                 <div className="flex flex-wrap gap-8 w-full mt-2">
                   <div className="w-full flex-1 min-w-[300px]">
                     <span className="block text-slate-400 text-sm uppercase tracking-wider mb-2 font-bold">Front Content</span>
-                    <a href="/trifold-front.png" target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-slate-700 shadow-xl hover:border-yellow-500 transition-colors bg-slate-900 p-1 group">
-                      <img src="/trifold-front.png" alt="Brochure Front" className="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500" />
+                    <a href="/trifold-front.jpg" target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-slate-700 shadow-xl hover:border-yellow-500 transition-colors bg-slate-900 p-1 group">
+                      <img src="/trifold-front.jpg" alt="Brochure Front" className="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500" />
                     </a>
                   </div>
                   <div className="w-full flex-1 min-w-[300px]">
                     <span className="block text-slate-400 text-sm uppercase tracking-wider mb-2 font-bold">Back Content</span>
-                    <a href="/trifold-back.png" target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-slate-700 shadow-xl hover:border-yellow-500 transition-colors bg-slate-900 p-1 group">
-                      <img src="/trifold-back.png" alt="Brochure Back" className="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500" />
+                    <a href="/trifold-back.jpg" target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-slate-700 shadow-xl hover:border-yellow-500 transition-colors bg-slate-900 p-1 group">
+                      <img src="/trifold-back.jpg" alt="Brochure Back" className="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500" />
                     </a>
                   </div>
                 </div>

@@ -56,7 +56,7 @@ const Home = () => {
             <div className="relative w-full rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl overflow-hidden">
               <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20"></div>
               <img
-                src="/heroSection.png"
+                src="/heroSection.jpg"
                 alt="Safety Guild Training Banner"
                 width="1200"
                 height="800"
@@ -151,7 +151,7 @@ const Home = () => {
           >
             <div className="absolute inset-0 bg-yellow-500/5 blur-[100px]"></div>
             <img
-              src="/home.png"
+              src="/home.jpg"
               alt="Safety Guild Promotions"
               width="800"
               height="400"
