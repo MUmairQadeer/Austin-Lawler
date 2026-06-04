@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 
 // Use environment variable first, then fallback to user's provided API key
-const resend = new Resend(process.env.RESEND_API_KEY || 're_5JnBpwcD_Aq2BNwCbMJRMefTqbdHE3LTV');
+const resend = new Resend(process.env.RESEND_API_KEY );
 
 export default async function handler(req, res) {
   // CORS configurations (essential so frontend can trigger it during local testing/preview)
