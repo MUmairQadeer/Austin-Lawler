@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, Calendar, Lock, Unlock, Upload, CheckCircle2 } from 'lucide-react';
+import { Image as ImageIcon, Calendar, Lock, Unlock, Upload, CheckCircle2, Trash2 } from 'lucide-react';
 import { client, isSanityConfigured } from '../sanityClient';
 
 const Gallery = () => {
@@ -112,6 +112,17 @@ const Gallery = () => {
       setUploadError("Failed to upload image. Please check your connection.");
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handleDelete = async (imageId) => {
+    if (!window.confirm('Are you sure you want to delete this image?')) return;
+    try {
+      await client.delete(imageId);
+      await fetchImages();
+    } catch (error) {
+      console.error('Delete failed:', error);
+      alert('Failed to delete image.');
     }
   };
 
@@ -284,6 +295,15 @@ const Gallery = () => {
                 
                 {/* Premium Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                {isAdmin && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDelete(img._id); }}
+                    className="absolute top-2 right-2 text-red-500 hover:text-red-400"
+                    title="Delete image"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                )}
                   <h3 className="text-white font-bold text-lg leading-tight mb-1">{img.title}</h3>
                   {img.date && (
                     <div className="flex items-center text-yellow-500 text-sm font-medium">
