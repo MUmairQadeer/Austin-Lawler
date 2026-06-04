@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   try {
     const data = await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: 'Support@safetyguild.org',
+      to: 'Austinrlawler@gmail.com',
       subject: `New Testimonial: ${name} (${rating} Stars)`,
       html: `
         <div style="font-family: sans-serif; padding: 20px; color: #0f172a; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 8px;">
