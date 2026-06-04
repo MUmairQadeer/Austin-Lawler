@@ -11,7 +11,7 @@ const Footer = () => {
             <Link to="/" className="inline-block mb-6 hover:scale-105 transition-transform">
               <img src="/logo.png" alt="Safety Guild Logo" width="200" height="56" loading="lazy" className="h-14 md:h-16 w-auto object-contain" />
             </Link>
-          <p className="text-slate-300 max-w-sm mb-6">Your trusted safety partner.</p>
+            <p className="text-slate-300 max-w-sm mb-6">Pursue a safer future.</p>
           </div>
           
           <div>
