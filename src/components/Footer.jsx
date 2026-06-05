@@ -30,15 +30,18 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-slate-300">
                 <MapPin className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
-                <span>123 Safety Drive, Suite 100<br/>Austin, TX 78701</span>
+                <span>
+                  <strong>Class location:</strong> 6906 Ledbetter Rd., Arlington, TX 76001<br />
+                  <em>*By appointment only*</em>
+                </span>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <Phone className="w-5 h-5 text-yellow-500 shrink-0" />
-                <span>(800) 555-SAFE</span>
+                <span>(903)246-5248</span>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <Mail className="w-5 h-5 text-yellow-500 shrink-0" />
-                <span>training@safetyguild.org</span>
+                <span>Support@safetyguild.org</span>
               </li>
             </ul>
           </div>
