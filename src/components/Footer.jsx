@@ -11,7 +11,7 @@ const Footer = () => {
             <Link to="/" className="inline-block mb-6 hover:scale-105 transition-transform">
               <img src="/logo.png" alt="Safety Guild Logo" width="200" height="56" loading="lazy" className="h-14 md:h-16 w-auto object-contain" />
             </Link>
-            <p className="text-slate-300 max-w-sm mb-6">Pursue a safer future.</p>
+            <p className="text-slate-300 max-w-sm mb-6 font-bold">Pursue a safer future.</p>
           </div>
           
           <div>
@@ -44,12 +44,9 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="pt-8 border-t border-slate-800 text-center md:flex md:justify-between md:text-left">
-          <p className="text-slate-400 text-sm">
+        <div className="pt-8 border-t border-slate-800 text-center">
+          <p className="text-slate-400 text-sm align-middle">
             &copy; {new Date().getFullYear()} Safety Guild. All rights reserved.
-          </p>
-          <p className="text-slate-400 text-sm mt-2 md:mt-0">
-            Instructor: Austin Lawler
           </p>
         </div>
       </div>
