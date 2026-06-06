@@ -79,19 +79,27 @@ const Store = () => {
           </motion.div>
         </div>
 
+        {/* Under Development Banner */}
+        <div className="max-w-3xl mx-auto mb-10">
+          <div className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
+            <img src="/underDev.jpg" alt="Under Development" className="w-full h-72 sm:h-96 md:h-[500px] object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
+          </div>
+        </div>
+
         {/* Premium "Currently in Production" Showcase Dashboard */}
-        <motion.div 
+        {/* <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="bg-slate-800/40 backdrop-blur-md border border-slate-700/60 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden max-w-4xl mx-auto mb-20"
         >
           {/* Subtle grid pattern background */}
-          <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+          {/* <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
           
           <div className="relative z-10 flex flex-col items-center text-center">
             {/* Pulsing Status Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-xs font-bold tracking-widest uppercase mb-8 shadow-inner animate-pulse">
+            {/* <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-xs font-bold tracking-widest uppercase mb-8 shadow-inner animate-pulse">
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-ping"></span>
               Store in Production
             </div>
@@ -105,7 +113,7 @@ const Store = () => {
             </p>
 
             {/* Premium Progress Bar */}
-            <div className="w-full max-w-lg mb-12 bg-slate-900/80 border border-slate-800 rounded-full p-1.5 shadow-inner">
+            {/* <div className="w-full max-w-lg mb-12 bg-slate-900/80 border border-slate-800 rounded-full p-1.5 shadow-inner">
               <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-2">
                 <span className="flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-yellow-500" /> Payment & Stock Setup</span>
                 <span className="text-yellow-500">90% Configured</span>
@@ -121,7 +129,7 @@ const Store = () => {
             </div>
 
             {/* Email Subscription Form */}
-            <div className="w-full max-w-md mb-8">
+            {/* <div className="w-full max-w-md mb-8">
               <AnimatePresence mode="wait">
                 {!isSubmitted ? (
                   <motion.form 
@@ -169,7 +177,7 @@ const Store = () => {
             </div>
 
             {/* Direct Contact / Offline orders */}
-            <div className="border-t border-slate-700/40 w-full pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* <div className="border-t border-slate-700/40 w-full pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3 text-left">
                 <div className="bg-yellow-500/10 border border-yellow-500/20 p-3 rounded-xl shrink-0">
                   <HardHat className="text-yellow-500 w-6 h-6" />
@@ -200,80 +208,7 @@ const Store = () => {
           </div>
         </motion.div>
 
-        {/* Sneak Peek Teaser Grid (Blurred catalog items) */}
-        <div className="relative mt-8">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[5px] rounded-3xl z-20 flex flex-col items-center justify-center p-6 border border-slate-800">
-            <div className="bg-slate-950/80 border border-slate-700 p-8 rounded-2xl text-center max-w-md shadow-2xl flex flex-col items-center">
-              <Lock className="w-10 h-10 text-yellow-500 mb-4 animate-bounce" />
-              <h3 className="text-white font-bold text-xl uppercase mb-2">Catalog Preview</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                Browse our initial selection of certified personal protective equipment and official apparel scheduled for the grand opening.
-              </p>
-              <span className="text-xs bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-                Store Inventory Pending
-              </span>
-            </div>
-          </div>
-
-          <div className="opacity-35 pointer-events-none space-y-16">
-            {/* Store sections */}
-            <div>
-              <div className="flex items-center justify-between mb-8 border-b border-slate-700 pb-4">
-                <h2 className="text-2xl font-bold text-white uppercase">Certified Equipment</h2>
-                <button className="text-slate-400 transition-colors">View All</button>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {equipment.map((item, i) => (
-                  <div 
-                    key={i}
-                    className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 transition-colors"
-                  >
-                    <div className="h-48 bg-slate-900 flex items-center justify-center relative overflow-hidden">
-                      <ShoppingBag className="w-16 h-16 text-slate-700" />
-                    </div>
-                    <div className="p-6">
-                      <span className="text-xs font-bold text-yellow-500 uppercase tracking-widest">{item.category}</span>
-                      <h3 className="text-lg font-bold text-white mt-1 mb-2">{item.name}</h3>
-                      <div className="flex items-center justify-between mt-4">
-                        <span className="text-xl font-bold text-slate-300">{item.price}</span>
-                        <button className="text-sm border border-slate-600 text-white px-4 py-2 rounded-lg font-medium">Add</button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-8 border-b border-slate-700 pb-4">
-                <h2 className="text-2xl font-bold text-white uppercase">Official Apparel</h2>
-                <button className="text-slate-400 transition-colors">View All</button>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {apparel.map((item, i) => (
-                  <div 
-                    key={i}
-                    className="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 transition-colors"
-                  >
-                    <div className="h-48 bg-slate-900 flex items-center justify-center relative overflow-hidden">
-                      <ShoppingBag className="w-16 h-16 text-slate-700" />
-                    </div>
-                    <div className="p-6">
-                      <span className="text-xs font-bold text-yellow-500 uppercase tracking-widest">{item.category}</span>
-                      <h3 className="text-lg font-bold text-white mt-1 mb-2">{item.name}</h3>
-                      <div className="flex items-center justify-between mt-4">
-                        <span className="text-xl font-bold text-slate-300">{item.price}</span>
-                        <button className="text-sm border border-slate-600 text-white px-4 py-2 rounded-lg font-medium">Add</button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Sneak Peek Teaser Grid - COMMENTED OUT FOR NOW */}
 
       </div>
     </div>

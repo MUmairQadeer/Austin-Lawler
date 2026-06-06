@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Menu, X, ShieldAlert } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTrainingOpen, setIsTrainingOpen] = useState(false);
+  const location = useLocation();
+  const isTrainingActive = location.pathname.startsWith('/training');
+
+  useEffect(() => {
+    setIsTrainingOpen(false);
+  }, [location.pathname]);
 
   const links = [
     { name: 'Home', path: '/' },
-    { name: 'Training', path: '/training' },
+    { name: 'Training', path: '/training/online' },
     { name: 'Verification', path: '/verification' },
     { name: 'Testimonials', path: '/reviews' },
     { name: 'Store', path: '/store' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Contact', path: '/contact' },
+  ];
+
+  const trainingSub = [
+    { name: 'Online Safety Training', path: '/training/online' },
+    { name: 'In Person Safety Training', path: '/training/onsite' },
   ];
 
   const activeStyles = "text-yellow-500 font-bold border-b-2 border-yellow-500";
@@ -31,15 +43,43 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-6">
               {links.map((link) => (
-                <NavLink
-                  key={link.name}
-                  to={link.path}
-                  className={({ isActive }) => 
-                    `px-3 py-2 text-sm uppercase tracking-wider ${isActive ? activeStyles : defaultStyles}`
-                  }
-                >
-                  {link.name}
-                </NavLink>
+                link.name === 'Training' ? (
+                  <div key="training" className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setIsTrainingOpen((prev) => !prev)}
+                      className={`px-3 py-2 text-sm uppercase tracking-wider ${isTrainingActive || isTrainingOpen ? activeStyles : defaultStyles}`}
+                    >
+                      {link.name}
+                    </button>
+
+                    <div className={`absolute left-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-md shadow-lg transform transition-all z-50 ${isTrainingOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                      <div className="flex flex-col py-2">
+                        {trainingSub.map((sub) => (
+                          <NavLink
+                            key={sub.name}
+                            to={sub.path}
+                            className={({ isActive }) => `block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-yellow-500 ${isActive ? 'text-yellow-500 font-bold' : ''}`}
+                            onClick={() => setIsTrainingOpen(false)}
+                          >
+                            {sub.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <NavLink
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setIsTrainingOpen(false)}
+                    className={({ isActive }) => 
+                      `px-3 py-2 text-sm uppercase tracking-wider ${isActive ? activeStyles : defaultStyles}`
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                )
               ))}
             </div>
           </div>
@@ -61,18 +101,46 @@ const Navbar = () => {
         <div className="md:hidden bg-slate-900 border-b border-slate-800">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {links.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className={({ isActive }) => 
-                  `block px-3 py-2 rounded-md text-base uppercase tracking-wider ${
-                    isActive ? "bg-slate-800 text-yellow-500 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
+              <div key={link.name}>
+                {link.name === 'Training' ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setIsTrainingOpen((prev) => !prev)}
+                      className={`w-full text-left px-3 py-2 rounded-md text-base uppercase tracking-wider ${isTrainingActive ? "bg-slate-800 text-yellow-500 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"}`}
+                    >
+                      {link.name}
+                    </button>
+                    {isTrainingOpen && (
+                      <div className="pl-6 mt-1 space-y-1">
+                        {trainingSub.map((sub) => (
+                          <NavLink
+                            key={sub.name}
+                            to={sub.path}
+                            onClick={() => {
+                              setIsOpen(false);
+                              setIsTrainingOpen(false);
+                            }}
+                            className={({ isActive }) => `block px-3 py-2 rounded-md text-sm uppercase tracking-wider ${isActive ? 'bg-slate-800 text-yellow-500 font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+                          >
+                            {sub.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <NavLink
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className={({ isActive }) => 
+                      `block px-3 py-2 rounded-md text-base uppercase tracking-wider ${isActive ? "bg-slate-800 text-yellow-500 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"}`
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                )}
+              </div>
             ))}
           </div>
         </div>

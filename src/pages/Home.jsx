@@ -33,12 +33,12 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link to="/training" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group">
+              <Link to="/training/online" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group">
                 View Courses
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link to="/contact" className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold rounded-xl text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-all uppercase tracking-wide">
-                Contact Construction Safety Guild
+                Contact Now
               </Link>
             </div>
           </motion.div>

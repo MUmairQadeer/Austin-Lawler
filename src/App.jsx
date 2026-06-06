@@ -5,7 +5,8 @@ import Footer from './components/Footer';
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
-const Training = lazy(() => import('./pages/Training'));
+const TrainingOnline = lazy(() => import('./pages/TrainingOnline'));
+const TrainingInPerson = lazy(() => import('./pages/TrainingInPerson'));
 const Verification = lazy(() => import('./pages/Verification'));
 const Store = lazy(() => import('./pages/Store'));
 const Reviews = lazy(() => import('./pages/Reviews'));
@@ -40,7 +41,8 @@ function App() {
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/training" element={<Training />} />
+              <Route path="/training/online" element={<TrainingOnline />} />
+              <Route path="/training/onsite" element={<TrainingInPerson />} />
               <Route path="/verification" element={<Verification />} />
               <Route path="/store" element={<Store />} />
               <Route path="/reviews" element={<Reviews />} />
