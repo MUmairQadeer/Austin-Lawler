@@ -12,7 +12,7 @@ const Home = () => {
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-yellow-500/10 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-orange-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col lg:flex-row items-center gap-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col lg:flex-row items-center gap-8">
 
           {/* Hero Content */}
           <motion.div
@@ -21,10 +21,7 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 mb-8 font-semibold tracking-wide uppercase text-sm">
-              <HardHat className="w-4 h-4" />
-              <span>Premier Telecom Safety Training</span>
-            </div>
+            {/* Badge removed per request */}
 
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight mb-6 uppercase">
               Climb Higher. <br />
@@ -40,8 +37,8 @@ const Home = () => {
                 View Courses
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link to="/contact" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-all uppercase tracking-wide">
-                Contact Austin
+              <Link to="/contact" className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold rounded-xl text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-all uppercase tracking-wide">
+                Contact Construction Safety Guild
               </Link>
             </div>
           </motion.div>
@@ -53,14 +50,14 @@ const Home = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="relative w-full rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl overflow-hidden">
+            <div className="relative w-full max-w-[40rem] rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl overflow-hidden">
               <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20"></div>
               <img
                 src="/heroSection.jpg"
                 alt="Safety Guild Training Banner"
                 width="1200"
                 height="800"
-                className="relative z-10 w-full h-auto object-contain drop-shadow-2xl"
+                className="relative z-10 w-full h-auto object-cover drop-shadow-2xl"
               />
             </div>
           </motion.div>
