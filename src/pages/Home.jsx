@@ -77,35 +77,6 @@ const Home = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-wider mb-4">Why Safety Guild?</h2>
             <div className="w-24 h-1 bg-yellow-500 mx-auto rounded-full mb-10"></div>
-
-            {/* Flag Image - PERFECTLY FITTED */}
-            <motion.div
-              initial={{ opacity: 0, y: 15, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="relative mx-auto max-w-xs md:max-w-sm lg:max-w-md group"
-            >
-              {/* Premium Background Glow */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-red-500/20 to-blue-500/20 blur-2xl rounded-full pointer-events-none group-hover:from-blue-500/30 group-hover:via-red-500/30 group-hover:to-blue-500/30 transition-all duration-500"></div>
-
-              {/* Flag Container */}
-              <div className="relative rounded-xl overflow-hidden shadow-2xl border-2 border-white/10 group-hover:border-white/20 transition-all duration-300">
-                <img
-                  src="/flag.jpg"
-                  alt="USA Flag"
-                  width="400"
-                  height="300"
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay gradient for better look */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
-              </div>
-
-              {/* Optional: Subtle reflection effect */}
-              <div className="absolute -bottom-6 left-0 right-0 h-12 bg-gradient-to-t from-black/20 to-transparent blur-md rounded-full pointer-events-none"></div>
-            </motion.div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
