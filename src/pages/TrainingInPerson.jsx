@@ -33,6 +33,7 @@ const featuredCourses = [
       'Comprehensive tower climbing and rescue certification meeting NATE industry standards for authorized personnel.',
     highlights: ['NATE Compliant Certification', 'Climbing & Rescue Techniques', 'Safety Standards'],
     comingSoon: false,
+    image: '/courses card/Screenshot_20260617_102827_Snapchat.jpg',
   },
   {
     id: 2,
@@ -45,6 +46,7 @@ const featuredCourses = [
       'Advanced tower climbing and rescue training for Competent Person designation under NATE requirements.',
     highlights: ['Competent Person Designation', 'Advanced Rescue Ops', 'NATE Standards'],
     comingSoon: false,
+    image: '/courses card/Screenshot_20260617_103025_Snapchat.jpg',
   },
   {
     id: 3,
@@ -57,6 +59,7 @@ const featuredCourses = [
       'Rigging certification including Capstand & Spotter Signal Person training, meeting OSHA and applicable industry standards.',
     highlights: ['Includes Capstand Training', 'Spotter Signal Person', 'OSHA Compliant'],
     comingSoon: false,
+    image: '/courses card/Screenshot_20260617_102629_Snapchat.jpg',
   },
   {
     id: 4,
@@ -69,6 +72,7 @@ const featuredCourses = [
       'Society of Professional Rope Access Technicians (SPRAT) certification program. Stay tuned for the launch!',
     highlights: ['SPRAT Certification', 'Industrial Rope Access', 'Advanced Techniques'],
     comingSoon: true,
+    image: '/courses card/sprat.png',
   },
   {
     id: 5,
@@ -81,6 +85,7 @@ const featuredCourses = [
       'Essential confined space entry training for entrants, attendants, and supervisors in permit-required environments.',
     highlights: ['Entrant Training', 'Attendant Certification', 'Supervisor Designation'],
     comingSoon: false,
+    image: '/courses card/cs1.png',
   },
   {
     id: 6,
@@ -93,6 +98,7 @@ const featuredCourses = [
       'Excavation and trenching safety covering hazard recognition, protective systems, and full OSHA compliance.',
     highlights: ['Trenching & Excavation', 'Hazard Recognition', 'Protective Systems'],
     comingSoon: false,
+    image: '/courses card/earth-excavation.webp',
   },
   {
     id: 7,
@@ -113,6 +119,7 @@ const featuredCourses = [
       'Skid Steer',
     ],
     comingSoon: false,
+    image: '/courses card/ChatGPT Image Jun 17, 2026, 01_46_14 PM.png',
   },
   {
     id: 8,
@@ -125,6 +132,7 @@ const featuredCourses = [
       'Radio Frequency (RF) radiation safety awareness and protection training for telecom and tower workers.',
     highlights: ['RF Hazard Awareness', 'Protection Measures', 'Telecom Standards'],
     comingSoon: false,
+    image: '/courses card/Screenshot_20260617_103535_Snapchat.jpg',
   },
   {
     id: 9,
@@ -137,6 +145,19 @@ const featuredCourses = [
       'Combined life safety training covering emergency response, CPR, AED use, and bloodborne pathogen exposure control.',
     highlights: ['First Aid Certification', 'CPR & AED Training', 'Bloodborne Pathogens'],
     comingSoon: false,
+    image: '/courses card/Screenshot_20260617_102948_Snapchat.jpg',
+  },
+  {
+    id: 10,
+    title: 'Qualified Flagger & Traffic Control Plans',
+    badge: 'Safety Compliance',
+    gradient: 'from-amber-600/30 via-slate-800 to-slate-900',
+    iconBg: 'from-amber-500 to-amber-700',
+    icon: <Shield className="w-10 h-10 text-white" />,
+    description: 'Flagger certification and traffic control planning for safe work zones in construction and utility projects.',
+    highlights: ['Flagger Certification', 'Traffic Control Setup', 'Work Zone Safety'],
+    comingSoon: false,
+    image: '/courses card/ChatGPT Image Jun 17, 2026, 01_43_12 PM.png',
   },
 ];
 
@@ -267,7 +288,7 @@ const CourseCard = ({ course }) => {
       transition={{ duration: 0.3 }}
       className={`relative flex-shrink-0 w-72 sm:w-80 rounded-2xl overflow-hidden border ${
         course.comingSoon ? 'border-purple-500/40' : 'border-slate-700/60'
-      } bg-gradient-to-br ${course.gradient} shadow-xl group`}
+      } bg-gradient-to-br ${course.gradient} shadow-xl group flex flex-col h-full`}
     >
       {/* Coming Soon corner ribbon */}
       {course.comingSoon && (
@@ -278,84 +299,82 @@ const CourseCard = ({ course }) => {
         </div>
       )}
 
-      {/* Top icon banner */}
-      <div className={`relative h-44 flex items-center justify-center bg-gradient-to-br ${course.gradient} overflow-hidden`}>
-        {/* Glow shimmer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+      {/* Top Image Banner */}
+      <div className="relative h-48 overflow-hidden bg-slate-950 flex-shrink-0">
+        {course.image ? (
+          <img
+            src={course.image}
+            alt={course.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            style={course.id === 8 ? { transform: 'rotate(45deg) scale(1.45)' } : {}}
+          />
+        ) : (
+          <div className={`w-full h-full bg-gradient-to-br ${course.gradient}`} />
+        )}
+        
+        {/* Shimmer / Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
-        {/* Icon circle */}
+        {/* Small floating icon circle */}
         <div
-          className={`relative z-10 w-20 h-20 rounded-2xl bg-gradient-to-br ${course.iconBg} flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300 ${
-            course.comingSoon ? 'opacity-70' : ''
-          }`}
+          className={`absolute bottom-3 left-4 z-10 w-10 h-10 rounded-xl bg-gradient-to-br ${course.iconBg} flex items-center justify-center shadow-lg border border-white/10`}
         >
-          {course.icon}
+          {React.cloneElement(course.icon, { className: 'w-5 h-5 text-white' })}
         </div>
 
         {/* Badge (non-coming-soon only) */}
         {!course.comingSoon && (
-          <div className="absolute top-3 right-3 text-xs font-bold bg-slate-900/80 text-yellow-400 border border-yellow-500/30 px-2 py-1 rounded-full backdrop-blur-sm">
+          <div className="absolute top-3 right-3 text-[11px] font-bold bg-slate-950/80 text-yellow-400 border border-yellow-500/20 px-2.5 py-0.5 rounded-full backdrop-blur-sm z-10">
             {course.badge}
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div className="p-5">
-        <h3
-          className={`font-bold text-base leading-snug mb-2 transition-colors ${
-            course.comingSoon
-              ? 'text-purple-200 group-hover:text-purple-300'
-              : 'text-white group-hover:text-yellow-400'
-          }`}
-        >
-          {course.title}
-        </h3>
-
-        <p className="text-slate-400 text-xs leading-relaxed mb-4">
-          {course.description}
-        </p>
-
-        {/* Bullet list for equipment training */}
-        {course.bulletList && (
-          <ul className="mb-4 space-y-1">
-            {course.bulletList.map((item) => (
-              <li key={item} className="flex items-center gap-2 text-xs text-slate-400">
-                <CheckCircle className="w-3 h-3 text-yellow-500 flex-shrink-0" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {/* Highlights */}
-        {course.highlights && !course.bulletList && (
-          <div className="flex flex-col gap-1 mb-4">
-            {course.highlights.map((h) => (
-              <div key={h} className="flex items-center gap-2 text-xs text-slate-400">
-                <CheckCircle
-                  className={`w-3 h-3 flex-shrink-0 ${
-                    course.comingSoon ? 'text-purple-400' : 'text-yellow-500'
-                  }`}
-                />
-                <span>{h}</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {course.comingSoon ? (
-          <div className="w-full py-2.5 rounded-xl bg-purple-900/60 border border-purple-500/40 text-purple-300 font-bold text-xs uppercase tracking-wider text-center">
-            Notify Me When Available
-          </div>
-        ) : (
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 w-full justify-center py-2.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-yellow-500/30"
+      <div className="p-5 flex flex-col justify-between flex-grow min-h-[160px]">
+        <div>
+          <h3
+            className={`font-bold text-base leading-snug mb-2 transition-colors ${
+              course.comingSoon
+                ? 'text-purple-200 group-hover:text-purple-300'
+                : 'text-white group-hover:text-yellow-400'
+            }`}
           >
-            Request a Quote <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        )}
+            {course.title}
+          </h3>
+
+          <p className="text-slate-400 text-xs leading-relaxed mb-4">
+            {course.description}
+          </p>
+
+          {/* Bullet list for equipment training */}
+          {course.bulletList && (
+            <ul className="mb-4 space-y-1">
+              {course.bulletList.map((item) => (
+                <li key={item} className="flex items-center gap-2 text-xs text-slate-400">
+                  <CheckCircle className="w-3 h-3 text-yellow-500 flex-shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* Highlights */}
+          {course.highlights && !course.bulletList && (
+            <div className="flex flex-col gap-1 mb-4">
+              {course.highlights.map((h) => (
+                <div key={h} className="flex items-center gap-2 text-xs text-slate-400">
+                  <CheckCircle
+                    className={`w-3 h-3 flex-shrink-0 ${
+                      course.comingSoon ? 'text-purple-400' : 'text-yellow-500'
+                    }`}
+                  />
+                  <span>{h}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </motion.div>
   );
@@ -431,93 +450,105 @@ const TrainingInPerson = () => {
     <div className="flex flex-col min-h-screen bg-slate-900">
 
       {/* ── HERO SECTION ── */}
-      <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden">
-        {/* Background layers */}
-        <div className="absolute inset-0 bg-slate-950" />
-        <div className="absolute inset-0 bg-[url('/heroSection.jpg')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/80 to-slate-950/90" />
+      <section className="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
+        {/* Ambient glow effects */}
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-yellow-500/8 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-orange-500/6 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
 
-        {/* Animated glow orbs */}
-        <div className="absolute top-1/4 right-1/3 w-96 h-96 bg-yellow-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-orange-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-          {/* Tag */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-yellow-500/40 bg-yellow-500/10 text-yellow-400 text-xs font-bold uppercase tracking-widest"
-          >
-            <Shield className="w-3.5 h-3.5" /> Compliance Starts Here
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black text-white tracking-tight uppercase leading-none mb-6"
-          >
-            In-Person
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-              Safety Training
-            </span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-4"
-          >
-            OSHA standards require employees to be trained in the safety and health aspects of their jobs.
-            Studies consistently show that well-trained workers are significantly less likely to be injured on the job.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-base text-slate-400 max-w-2xl mx-auto leading-relaxed mb-10"
-          >
-            CSG delivers practical, hands-on instruction that builds real compliance confidence — right in the field.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_40px_rgba(234,179,8,0.35)] transition-all uppercase tracking-wide group"
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-stretch">
+            {/* Left — Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="relative w-full"
             >
-              Request a Quote
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <a
-              href="#all-programs"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold rounded-xl text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-yellow-500/50 transition-all uppercase tracking-wide"
+              {/* Decorative accent border */}
+              <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-yellow-500/20 via-transparent to-orange-500/10 blur-sm pointer-events-none" />
+              <div className="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/40 h-full">
+                <img
+                  src="/image 123.png"
+                  alt="Safety training in action"
+                  className="w-full h-full object-cover"
+                />
+                {/* Bottom gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+              </div>
+              {/* Accent line */}
+              <div className="absolute -bottom-2 left-6 right-6 h-1 rounded-full bg-gradient-to-r from-yellow-500/60 via-yellow-500/20 to-transparent" />
+            </motion.div>
+
+            {/* Right — Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
             >
-              View All Programs
-            </a>
-          </motion.div>
+              <div className="inline-flex items-center gap-2 mb-4 px-3.5 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/10">
+                <Shield className="w-3.5 h-3.5 text-yellow-400" />
+                <span className="text-xs font-bold uppercase tracking-widest text-yellow-400">
+                  Flexible to Meet Every Need
+                </span>
+              </div>
+
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-5 tracking-tight">
+                Safety Training{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
+                  Services
+                </span>
+              </h1>
+
+              <p className="text-slate-400 leading-relaxed mb-8 text-[15px]">
+                We are proud to offer comprehensive, customized safety training programs. Our onsite training
+                programs are relevant to your specific industry and company compliance needs and will
+                maximize your employees time spent actually getting trained. We're happy to customize as
+                needed:
+              </p>
+
+              <ul className="space-y-3">
+                {[
+                  'Virtual or Onsite',
+                  'Hands-on',
+                  'CEU & TCH approved for Connecticut & Massachusetts',
+                  'Procedural',
+                  'Compliance Based',
+                  'OSHA / EPA',
+                  'Authorized user, qualified, and competent person levels',
+                  'Initial & Refresher',
+                ].map((item, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: 15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.35, delay: 0.3 + i * 0.05 }}
+                    className="flex items-start gap-3 text-slate-300"
+                  >
+                    <CheckCircle className="mt-0.5 flex-shrink-0 w-4 h-4 text-yellow-500" />
+                    <span className="text-[15px] leading-relaxed">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="mt-8"
+              >
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group"
+                >
+                  Request a Quote
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-        >
-          <span className="text-slate-600 text-xs uppercase tracking-widest">Scroll</span>
-          <ChevronDown className="w-4 h-4 text-slate-600 animate-bounce" />
-        </motion.div>
       </section>
 
       {/* ── TRUST STATS BAR ── */}
@@ -611,6 +642,17 @@ const TrainingInPerson = () => {
           <p className="text-slate-600 text-xs text-center mt-4">
             Scroll or use arrows to browse all courses →
           </p>
+
+          {/* Unified Quote CTA Button below all cards */}
+          <div className="mt-8 flex justify-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-8 py-4 text-sm font-extrabold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wider group"
+            >
+              Request a Training Quote
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </section>
 
