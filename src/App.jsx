@@ -11,6 +11,7 @@ const Verification = lazy(() => import('./pages/Verification'));
 const Store = lazy(() => import('./pages/Store'));
 const Reviews = lazy(() => import('./pages/Reviews'));
 const Contact = lazy(() => import('./pages/Contact'));
+const Gallery = lazy(() => import('./pages/Gallery'));
 
 
 // Helper component to scroll to top on route change
@@ -47,6 +48,7 @@ function App() {
               <Route path="/store" element={<Store />} />
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/gallery" element={<Gallery />} />
 
             </Routes>
           </Suspense>

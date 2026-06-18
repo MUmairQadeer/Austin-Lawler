@@ -18,6 +18,7 @@ const Navbar = () => {
     { name: 'Verification', path: '/verification' },
     { name: 'Testimonials', path: '/reviews' },
     { name: 'Store', path: '/store' },
+    { name: 'Gallery', path: '/gallery' },
     { name: 'Contact', path: '/contact' },
   ];
 
