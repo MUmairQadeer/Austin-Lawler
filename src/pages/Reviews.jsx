@@ -5,48 +5,7 @@ import ReviewCard from '../components/ReviewCard';
 import StarRating from '../components/StarRating';
 import { client, isSanityConfigured } from '../sanityClient';
 
-const defaultReviews = [
-  {
-    id: 1,
-    name: "Uy Nguyen",
-    jobTitle: "Owner, Wintel Construction",
-    rating: 5,
-    text: "During my training the instructor was very knowledgeable and had great attention to detail. The facility had an indoor tower for training and was nice and clean.",
-    date: "10/12/2025"
-  },
-  {
-    id: 2,
-    name: "Taylor Wallis",
-    jobTitle: "Tech I",
-    rating: 5,
-    text: "Having a military background I have been through countless training courses. The knowledge and professionalism makes them an unparalleled choice.",
-    date: "09/25/2025"
-  },
-  {
-    id: 3,
-    name: "Miguel Estrada",
-    jobTitle: "Foreman",
-    rating: 5,
-    text: "Austin presented the course in an easy way to understand. I understood things that were never explained to me in previous trainings.",
-    date: "08/14/2025"
-  },
-  {
-    id: 4,
-    name: "Brandon Kolsky",
-    jobTitle: "Construction Manager",
-    rating: 5,
-    text: "Austin made the time in class very enjoyable. He made sure if someone did not fully understand, he spent extra time to explain.",
-    date: "07/30/2025"
-  },
-  {
-    id: 5,
-    name: "Cesar Acosta",
-    jobTitle: "Tech II",
-    rating: 5,
-    text: "Austin is very knowledgeable and interactive. I learned a lot about safety that helped me out in the field.",
-    date: "06/18/2025"
-  }
-];
+
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -72,32 +31,25 @@ const Reviews = () => {
   }, []);
 
   const fetchReviews = () => {
-    if (isSanityConfigured) {
-      // Query published reviews from Sanity.io (filter out drafts)
-      const query = '*[_type == "testimonial" && !(_id in path("drafts.**"))] | order(date desc, _createdAt desc)';
-      client.fetch(query, {}, { perspective: 'raw' })
-        .then((data) => {
-          if (data && data.length > 0) {
-            const mappedReviews = data.map(item => ({
-              id: item._id,
-              name: item.name,
-              jobTitle: item.jobTitle,
-              rating: item.rating,
-              text: item.text,
-              date: item.date || new Date(item._createdAt).toLocaleDateString()
-            }));
-            setReviews(mappedReviews);
-          } else {
-            setReviews(defaultReviews);
-          }
-        })
-        .catch((err) => {
-          console.error("Sanity fetch error, falling back to local storage:", err);
-          loadLocalStorageReviews();
-        });
-    } else {
-      loadLocalStorageReviews();
-    }
+    if (!isSanityConfigured) return;
+    const query = '*[_type == "testimonial" && !(_id in path("drafts.**"))] | order(date desc, _createdAt desc)';
+    client.fetch(query, {}, { perspective: 'raw' })
+      .then((data) => {
+        if (data && data.length > 0) {
+          const mappedReviews = data.map(item => ({
+            id: item._id,
+            name: item.name,
+            jobTitle: item.jobTitle,
+            rating: item.rating,
+            text: item.text,
+            date: item.date || new Date(item._createdAt).toLocaleDateString()
+          }));
+          setReviews(mappedReviews);
+        }
+      })
+      .catch((err) => {
+        console.error("Sanity fetch error:", err);
+      });
   };
 
   const fetchDrafts = () => {
@@ -119,19 +71,7 @@ const Reviews = () => {
       .catch((err) => console.error("Error fetching drafts:", err));
   };
 
-  const loadLocalStorageReviews = () => {
-    const saved = localStorage.getItem('sg_reviews');
-    if (saved) {
-      try {
-        setReviews(JSON.parse(saved));
-      } catch (e) {
-        setReviews(defaultReviews);
-      }
-    } else {
-      setReviews(defaultReviews);
-      localStorage.setItem('sg_reviews', JSON.stringify(defaultReviews));
-    }
-  };
+
 
   const handleAdminLogin = (e) => {
     e.preventDefault();
@@ -252,24 +192,6 @@ const Reviews = () => {
         console.error("Sanity creation failed:", err);
         setError('Failed to submit testimonial to database. Please check your network and try again.');
       }
-    } else {
-      // Fallback: save to LocalStorage (runs instantly in demo mode)
-      const newReview = {
-        id: Date.now(),
-        ...testimonialData
-      };
-      
-      const updatedReviews = [newReview, ...reviews];
-      setReviews(updatedReviews);
-      localStorage.setItem('sg_reviews', JSON.stringify(updatedReviews));
-      
-      // Still trigger email locally if endpoint is available (mock/local server test)
-      sendEmailNotification(testimonialData);
-      
-      // Success state
-      setSuccess(true);
-      setFormData({ name: '', jobTitle: '', rating: 0, text: '' });
-      setTimeout(() => setSuccess(false), 5000);
     }
   };
 
