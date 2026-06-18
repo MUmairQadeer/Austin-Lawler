@@ -82,7 +82,7 @@ const Store = () => {
         {/* Under Development Banner */}
         <div className="max-w-3xl mx-auto mb-10">
           <div className="relative mx-auto w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
-            <img src="/underDev.jpg" alt="Under Development" className="w-full h-72 sm:h-96 md:h-[500px] object-cover" />
+            <img src="/under-development.jpg" alt="Under Development" width="800" height="500" loading="lazy" decoding="async" className="w-full h-72 sm:h-96 md:h-[500px] object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
           </div>
         </div>

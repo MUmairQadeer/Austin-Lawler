@@ -33,7 +33,7 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link to="/training/online" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group">
+              <Link to="/training/onsite" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group">
                 View Courses
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -53,10 +53,12 @@ const Home = () => {
             <div className="relative w-full max-w-[40rem] rounded-2xl bg-slate-900/50 backdrop-blur border border-slate-700 shadow-xl overflow-hidden">
               <div className="absolute inset-0 bg-yellow-500 blur-3xl opacity-20"></div>
               <img
-                src="/heroSection.jpg"
+                src="/hero-section.jpg"
                 alt="Safety Guild Training Banner"
                 width="1200"
                 height="800"
+                fetchpriority="high"
+                decoding="sync"
                 className="relative z-10 w-full h-auto object-cover drop-shadow-2xl"
               />
             </div>
@@ -69,7 +71,7 @@ const Home = () => {
       <section className="py-24 bg-slate-950 relative overflow-hidden">
         {/* Background Image Mixed cleanly */}
         <div className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
-          <img src="/services.jpg" alt="background texture" width="1920" height="1080" loading="lazy" className="w-full h-full object-cover grayscale mix-blend-screen" />
+          <img src="/services.jpg" alt="" width="1920" height="1080" loading="lazy" decoding="async" className="w-full h-full object-cover grayscale mix-blend-screen" />
           <div className="absolute inset-0 bg-slate-950/80"></div>
         </div>
 

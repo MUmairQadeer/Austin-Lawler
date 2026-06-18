@@ -78,7 +78,7 @@ const Training = () => {
         {/* Under Development Banner */}
         <div className="max-w-3xl mx-auto mb-10">
           <div className="relative mx-auto max-w-xl w-full rounded-2xl overflow-hidden shadow-2xl border border-slate-800">
-            <img src="/underDev.jpg" alt="Under Development" className="w-full h-56 sm:h-72 md:h-80 object-cover" />
+            <img src="/under-development.jpg" alt="Under Development" width="800" height="400" loading="lazy" decoding="async" className="w-full h-56 sm:h-72 md:h-80 object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
           </div>
         </div>

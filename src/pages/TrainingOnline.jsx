@@ -16,7 +16,7 @@ const TrainingOnline = () => {
 
         <div className="space-y-8 lg:max-w-3xl lg:mx-auto">
           <div className="rounded-3xl overflow-hidden border border-slate-700 shadow-2xl">
-            <img src="/underDev.jpg" alt="Under Development" className="w-full h-72 sm:h-96 md:h-[500px] object-cover" />
+            <img src="/under-development.jpg" alt="Under Development" width="800" height="500" loading="lazy" decoding="async" className="w-full h-72 sm:h-96 md:h-[500px] object-cover" />
           </div>
 
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">

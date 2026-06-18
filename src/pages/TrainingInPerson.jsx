@@ -33,7 +33,7 @@ const featuredCourses = [
       'Comprehensive tower climbing and rescue certification meeting NATE industry standards for authorized personnel.',
     highlights: ['NATE Compliant Certification', 'Climbing & Rescue Techniques', 'Safety Standards'],
     comingSoon: false,
-    image: '/courses card/Screenshot_20260617_102827_Snapchat.jpg',
+    image: '/courses/authorized-tower-climber.png',
   },
   {
     id: 2,
@@ -46,7 +46,7 @@ const featuredCourses = [
       'Advanced tower climbing and rescue training for Competent Person designation under NATE requirements.',
     highlights: ['Competent Person Designation', 'Advanced Rescue Ops', 'NATE Standards'],
     comingSoon: false,
-    image: '/courses card/Screenshot_20260617_103025_Snapchat.jpg',
+    image: '/courses/competent-tower-climber.jpg',
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const featuredCourses = [
       'Rigging certification including Capstand & Spotter Signal Person training, meeting OSHA and applicable industry standards.',
     highlights: ['Includes Capstand Training', 'Spotter Signal Person', 'OSHA Compliant'],
     comingSoon: false,
-    image: '/courses card/Screenshot_20260617_102629_Snapchat.jpg',
+    image: '/courses/competent-rigger.jpg',
   },
   {
     id: 4,
@@ -72,7 +72,7 @@ const featuredCourses = [
       'Society of Professional Rope Access Technicians (SPRAT) certification program. Stay tuned for the launch!',
     highlights: ['SPRAT Certification', 'Industrial Rope Access', 'Advanced Techniques'],
     comingSoon: true,
-    image: '/courses card/sprat.png',
+    image: '/courses/sprat.png',
   },
   {
     id: 5,
@@ -85,7 +85,7 @@ const featuredCourses = [
       'Essential confined space entry training for entrants, attendants, and supervisors in permit-required environments.',
     highlights: ['Entrant Training', 'Attendant Certification', 'Supervisor Designation'],
     comingSoon: false,
-    image: '/courses card/cs1.png',
+    image: '/courses/confined-space.png',
   },
   {
     id: 6,
@@ -98,7 +98,7 @@ const featuredCourses = [
       'Excavation and trenching safety covering hazard recognition, protective systems, and full OSHA compliance.',
     highlights: ['Trenching & Excavation', 'Hazard Recognition', 'Protective Systems'],
     comingSoon: false,
-    image: '/courses card/earth-excavation.webp',
+    image: '/courses/earth-excavation.webp',
   },
   {
     id: 7,
@@ -119,7 +119,7 @@ const featuredCourses = [
       'Skid Steer',
     ],
     comingSoon: false,
-    image: '/courses card/ChatGPT Image Jun 17, 2026, 01_46_14 PM.png',
+    image: '/courses/industrial-equipment.png',
   },
   {
     id: 8,
@@ -132,7 +132,7 @@ const featuredCourses = [
       'Radio Frequency (RF) radiation safety awareness and protection training for telecom and tower workers.',
     highlights: ['RF Hazard Awareness', 'Protection Measures', 'Telecom Standards'],
     comingSoon: false,
-    image: '/courses card/Screenshot_20260617_103535_Snapchat.jpg',
+    image: '/courses/rf-radiation.jpg',
   },
   {
     id: 9,
@@ -145,7 +145,7 @@ const featuredCourses = [
       'Combined life safety training covering emergency response, CPR, AED use, and bloodborne pathogen exposure control.',
     highlights: ['First Aid Certification', 'CPR & AED Training', 'Bloodborne Pathogens'],
     comingSoon: false,
-    image: '/courses card/Screenshot_20260617_102948_Snapchat.jpg',
+    image: '/courses/first-aid.jpg',
   },
   {
     id: 10,
@@ -157,7 +157,7 @@ const featuredCourses = [
     description: 'Flagger certification and traffic control planning for safe work zones in construction and utility projects.',
     highlights: ['Flagger Certification', 'Traffic Control Setup', 'Work Zone Safety'],
     comingSoon: false,
-    image: '/courses card/ChatGPT Image Jun 17, 2026, 01_43_12 PM.png',
+    image: '/courses/flagger.jpg',
   },
 ];
 
@@ -305,6 +305,10 @@ const CourseCard = ({ course }) => {
           <img
             src={course.image}
             alt={course.title}
+            width="320"
+            height="192"
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             style={course.id === 8 ? { transform: 'rotate(45deg) scale(1.45)' } : {}}
           />
@@ -315,12 +319,7 @@ const CourseCard = ({ course }) => {
         {/* Shimmer / Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
-        {/* Small floating icon circle */}
-        <div
-          className={`absolute bottom-3 left-4 z-10 w-10 h-10 rounded-xl bg-gradient-to-br ${course.iconBg} flex items-center justify-center shadow-lg border border-white/10`}
-        >
-          {React.cloneElement(course.icon, { className: 'w-5 h-5 text-white' })}
-        </div>
+
 
         {/* Badge (non-coming-soon only) */}
         {!course.comingSoon && (
@@ -467,10 +466,12 @@ const TrainingInPerson = () => {
             >
               {/* Decorative accent border */}
               <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-yellow-500/20 via-transparent to-orange-500/10 blur-sm pointer-events-none" />
-              <div className="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/40 h-full">
+              <div className="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/40 h-full bg-slate-950">
                 <img
-                  src="/image 123.png"
+                  src="/training-hero.jpg"
                   alt="Safety training in action"
+                  width="600"
+                  height="400"
                   className="w-full h-full object-cover"
                 />
                 {/* Bottom gradient overlay */}

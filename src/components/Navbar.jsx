@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
             <NavLink to="/" className="flex items-center gap-2 group">
-              <img src="/logo.png" alt="Safety Guild Logo" className="h-30 md:h-14 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform py-2" />
+              <img src="/logo.png" alt="Safety Guild Logo" width="200" height="56" className="h-30 md:h-14 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform py-2" />
             </NavLink>
           </div>
           

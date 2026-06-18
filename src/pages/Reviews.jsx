@@ -195,29 +195,16 @@ const Reviews = () => {
     }
   };
 
-  // Helper to send email notification (tries Vercel first, falls back to Hostinger/PHP)
+  // Helper to send email notification via Vercel serverless function
   const sendEmailNotification = async (testimonialData) => {
     try {
-      const response = await fetch('/api/send-email', {
+      await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(testimonialData),
       });
-      const contentType = response.headers.get('content-type');
-      if (response.status === 404 || (contentType && contentType.includes('text/html'))) {
-        throw new Error('Vercel Node.js endpoint not found');
-      }
     } catch (err) {
-      console.log("Vercel endpoint missing/failed, trying Hostinger PHP endpoint...");
-      try {
-        await fetch('/api/send-email.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(testimonialData),
-        });
-      } catch (phpErr) {
-        console.error("PHP email notification failed:", phpErr);
-      }
+      console.error("Email notification failed:", err);
     }
   };
 
