@@ -75,7 +75,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <strong className="block text-white mb-1">Training Facility</strong>
-                    6906 Ledbetter Rd., Arlington, TX 76001<br /><em>*By appointment only*</em>
+                    6906 Ledbetter Rd.<br />Arlington, TX 76001<br /><em>*By appointment only</em>
                   </div>
                 </li>
                 <li className="flex items-start gap-4 text-slate-300 group">

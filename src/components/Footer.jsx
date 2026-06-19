@@ -31,8 +31,8 @@ const Footer = () => {
               <li className="flex items-start gap-2 text-slate-300">
                 <MapPin className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
                 <span>
-                  <strong>Class location:</strong> 6906 Ledbetter Rd., Arlington, TX 76001<br />
-                  <em>*By appointment only*</em>
+                  <strong>Training Facility:</strong> 6906 Ledbetter Rd.<br />Arlington, TX 76001<br />
+                  <em>*By appointment only</em>
                 </span>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
