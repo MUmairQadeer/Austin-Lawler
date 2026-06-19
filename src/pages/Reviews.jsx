@@ -75,7 +75,7 @@ const Reviews = () => {
 
   const handleAdminLogin = (e) => {
     e.preventDefault();
-    const correctPasscode = import.meta.env.VITE_ADMIN_PASSCODE || 'wvh6vay2';
+    const correctPasscode = import.meta.env.VITE_ADMIN_PASSCODE;
     if (adminPassword === correctPasscode) {
       setIsAdmin(true);
       setShowAdminLogin(false);
@@ -138,7 +138,7 @@ const Reviews = () => {
   // Helper to send email notification via Vercel serverless function
   const sendEmailNotification = async (testimonialData) => {
     try {
-      await fetch('/api/send-email', {
+      await fetch('/api/testimonial-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(testimonialData),
