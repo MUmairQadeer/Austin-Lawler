@@ -27,8 +27,8 @@ const Navbar = () => {
     { name: 'In Person Safety Training', path: '/training/onsite' },
   ];
 
-  const activeStyles = "text-yellow-500 font-bold border-b-2 border-yellow-500";
-  const defaultStyles = "text-slate-300 hover:text-yellow-500 transition-colors font-medium";
+  const activeStyles = "text-yellow-400 font-bold border-b-2 border-yellow-400";
+  const defaultStyles = "text-slate-300 hover:text-yellow-400 transition-colors font-medium";
 
   return (
     <nav className="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
@@ -59,7 +59,7 @@ const Navbar = () => {
                           <NavLink
                             key={sub.name}
                             to={sub.path}
-                            className={({ isActive }) => `block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-yellow-500 ${isActive ? 'text-yellow-500 font-bold' : ''}`}
+                            className={({ isActive }) => `block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-yellow-400 ${isActive ? 'text-yellow-400 font-bold' : ''}`}
                             onClick={() => setIsTrainingOpen(false)}
                           >
                             {sub.name}
@@ -107,7 +107,7 @@ const Navbar = () => {
                     <button
                       type="button"
                       onClick={() => setIsTrainingOpen((prev) => !prev)}
-                      className={`w-full text-left px-3 py-2 rounded-md text-base uppercase tracking-wider ${isTrainingActive ? "bg-slate-800 text-yellow-500 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"}`}
+                      className={`w-full text-left px-3 py-2 rounded-md text-base uppercase tracking-wider ${isTrainingActive ? "bg-slate-800 text-yellow-400 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"}`}
                     >
                       {link.name}
                     </button>
@@ -121,7 +121,7 @@ const Navbar = () => {
                               setIsOpen(false);
                               setIsTrainingOpen(false);
                             }}
-                            className={({ isActive }) => `block px-3 py-2 rounded-md text-sm uppercase tracking-wider ${isActive ? 'bg-slate-800 text-yellow-500 font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+                            className={({ isActive }) => `block px-3 py-2 rounded-md text-sm uppercase tracking-wider ${isActive ? 'bg-slate-800 text-yellow-400 font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
                           >
                             {sub.name}
                           </NavLink>
@@ -134,7 +134,7 @@ const Navbar = () => {
                     to={link.path}
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) => 
-                      `block px-3 py-2 rounded-md text-base uppercase tracking-wider ${isActive ? "bg-slate-800 text-yellow-500 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"}`
+                      `block px-3 py-2 rounded-md text-base uppercase tracking-wider ${isActive ? "bg-slate-800 text-yellow-400 font-bold" : "text-slate-300 hover:bg-slate-800 hover:text-white"}`
                     }
                   >
                     {link.name}

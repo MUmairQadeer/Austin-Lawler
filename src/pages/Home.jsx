@@ -232,13 +232,7 @@ const Home = () => {
               Climb Higher.
             </motion.span>
             <motion.span
-              className="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-black uppercase leading-[0.92] tracking-tight mt-1"
-              style={{
-                background: 'linear-gradient(135deg, #facc15 0%, #f59e0b 35%, #ea580c 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
+              className="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-black uppercase leading-[0.92] tracking-tight mt-1 text-yellow-400"
               {...fadeUp(0.45)}
             >
               Work Safer.
