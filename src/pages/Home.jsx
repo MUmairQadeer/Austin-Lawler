@@ -161,7 +161,7 @@ const Home = () => {
             height="1080"
             fetchpriority="high"
             decoding="sync"
-            className="w-full h-[85%] object-cover object-center"
+            className="w-full h-[75%] object-cover object-center"
           />
         </motion.div>
 
@@ -206,7 +206,7 @@ const Home = () => {
 
         {/* ── Main Content ── */}
         <motion.div
-          className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 text-center"
+          className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 text-center -mt-12 md:-mt-16"
           style={{ opacity: contentOpacity, y: contentY }}
         >
           {/* Eyebrow */}
@@ -308,42 +308,9 @@ const Home = () => {
           </motion.div>
         </motion.div>
 
-        {/* ── Bottom Stats Bar (frosted glass, docked) ── */}
-        <motion.div
-          className="absolute bottom-0 left-0 right-0 z-20"
-          style={{ opacity: statsOpacity }}
-        >
-          <div className="bg-slate-950/60 backdrop-blur-xl border-t border-white/[0.06]">
-            <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-              {[
-                { icon: Users, value: `${trainedCount.toLocaleString()}+`, label: 'Workers Trained' },
-                { icon: Award, value: `${certCount}+`, label: 'Courses Certified' },
-                { icon: Shield, value: 'OSHA', label: 'Compliant' },
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  className="flex items-center gap-3 group"
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.2 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <div className="w-9 h-9 rounded-lg bg-yellow-500/10 flex items-center justify-center group-hover:bg-yellow-500/20 transition-colors duration-300">
-                    <stat.icon className="w-4 h-4 text-yellow-500" />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-base leading-none">{stat.value}</p>
-                    <p className="text-slate-500 text-[10px] mt-0.5 uppercase tracking-wider font-medium">{stat.label}</p>
-                  </div>
-                  {i < 2 && <div className="hidden sm:block w-[1px] h-8 bg-white/[0.06] ml-7" />}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
         {/* ── Scroll indicator ── */}
         <motion.div
-          className="absolute bottom-[90px] left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1.5"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1.5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
@@ -360,6 +327,35 @@ const Home = () => {
           />
         </motion.div>
       </section>
+
+      {/* ── Bottom Stats Bar (Moved outside hero so it doesn't fade and can be scrolled to) ── */}
+      <div className="bg-slate-900 relative z-20">
+        <div className="max-w-5xl mx-auto px-6 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+          {[
+            { icon: Users, value: `${trainedCount.toLocaleString()}+`, label: 'Workers Trained' },
+            { icon: Award, value: `${certCount}+`, label: 'Courses Certified' },
+            { icon: Shield, value: 'OSHA', label: 'Compliant' },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              className="flex items-center gap-3 group"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center group-hover:bg-yellow-500/20 transition-colors duration-300">
+                <stat.icon className="w-5 h-5 text-yellow-500" />
+              </div>
+              <div>
+                <p className="text-white font-bold text-lg leading-none">{stat.value}</p>
+                <p className="text-slate-400 text-xs mt-1 uppercase tracking-wider font-semibold">{stat.label}</p>
+              </div>
+              {i < 2 && <div className="hidden sm:block w-[1px] h-8 bg-slate-700 ml-8" />}
+            </motion.div>
+          ))}
+        </div>
+      </div>
 
 
       {/* ═══════════ SERVICES OVERVIEW ═══════════ */}

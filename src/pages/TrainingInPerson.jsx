@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import {
   ChevronDown,
   ChevronRight,
@@ -384,6 +384,14 @@ const CourseCard = ({ course }) => {
 const TrainingInPerson = () => {
   const scrollRef = useRef(null);
   const isLockedRef = useRef(false);
+  const heroRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
 
   const scroll = (dir) => {
     if (scrollRef.current) {
@@ -449,106 +457,99 @@ const TrainingInPerson = () => {
     <div className="flex flex-col min-h-screen bg-slate-900">
 
       {/* ── HERO SECTION ── */}
-      <section className="relative bg-slate-950 py-20 md:py-28 overflow-hidden">
-        {/* Ambient glow effects */}
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-yellow-500/8 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-orange-500/6 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+      <section ref={heroRef} className="relative flex items-center min-h-[calc(100vh-80px)] overflow-hidden bg-slate-950">
+        
+        {/* ── BG Image with scroll parallax + scale ── */}
+        <motion.div
+          className="absolute inset-0 z-0"
+          style={{ y: bgY, scale: bgScale }}
+        >
+          <img
+            src="/training-hero.jpg"
+            alt="Safety training in action"
+            width="1920"
+            height="1080"
+            fetchPriority="high"
+            decoding="sync"
+            className="w-full h-full object-cover object-center"
+          />
+        </motion.div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-stretch">
-            {/* Left — Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              className="relative w-full"
-            >
-              {/* Decorative accent border */}
-              <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-yellow-500/20 via-transparent to-orange-500/10 blur-sm pointer-events-none" />
-              <div className="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/40 h-full bg-slate-950">
-                <img
-                  src="/training-hero.jpg"
-                  alt="Safety training in action"
-                  width="600"
-                  height="400"
-                  className="w-full h-full object-cover"
-                />
-                {/* Bottom gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
-              </div>
-              {/* Accent line */}
-              <div className="absolute -bottom-2 left-6 right-6 h-1 rounded-full bg-gradient-to-r from-yellow-500/60 via-yellow-500/20 to-transparent" />
-            </motion.div>
+        {/* ── Cinematic Overlays ── */}
+        <div className="absolute inset-0 z-[1] bg-slate-950/40" />
+        <div className="absolute inset-0 z-[2]" style={{ background: 'linear-gradient(to bottom, rgba(2,6,23,0.7) 0%, rgba(2,6,23,0.4) 50%, rgba(2,6,23,0.1) 100%)' }} />
+        <div className="absolute inset-0 z-[3]" style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(2,6,23,0.2) 0%, rgba(2,6,23,0.4) 100%)' }} />
 
-            {/* Right — Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-            >
-              <div className="inline-flex items-center gap-2 mb-4 px-3.5 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/10">
-                <Shield className="w-3.5 h-3.5 text-yellow-400" />
-                <span className="text-xs font-bold uppercase tracking-widest text-yellow-400">
-                  Flexible to Meet Every Need
-                </span>
-              </div>
+        {/* Top edge light */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/25 to-transparent z-10" />
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-5 tracking-tight">
-                Safety Training{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-                  Services
-                </span>
-              </h1>
+        {/* ── Main Content ── */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl flex flex-col items-center text-center"
+          >
+            <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 backdrop-blur-md shadow-lg shadow-yellow-500/5">
+              <Shield className="w-4 h-4 text-yellow-400" />
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-yellow-400">
+                Flexible to Meet Every Need
+              </span>
+            </div>
 
-              <p className="text-slate-400 leading-relaxed mb-8 text-[15px]">
-                We are proud to offer comprehensive, customized safety training programs. Our onsite training
-                programs are relevant to your specific industry and company compliance needs and will
-                maximize your employees time spent actually getting trained. We're happy to customize as
-                needed:
-              </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase leading-[0.92] mb-6 tracking-tight">
+              Safety Training{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-500">
+                Services
+              </span>
+            </h1>
 
-              <ul className="space-y-3">
-                {[
-                  'Virtual or Onsite',
-                  'Hands-on',
-                  'CEU & TCH approved for Connecticut & Massachusetts',
-                  'Procedural',
-                  'Compliance Based',
-                  'OSHA / EPA',
-                  'Authorized user, qualified, and competent person levels',
-                  'Initial & Refresher',
-                ].map((item, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.35, delay: 0.3 + i * 0.05 }}
-                    className="flex items-start gap-3 text-slate-300"
-                  >
-                    <CheckCircle className="mt-0.5 flex-shrink-0 w-4 h-4 text-yellow-500" />
-                    <span className="text-[15px] leading-relaxed">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
+            <p className="text-slate-300 leading-relaxed mb-8 text-base md:text-lg font-medium">
+              We are proud to offer comprehensive, customized safety training programs. Our onsite training
+              programs are relevant to your specific industry and company compliance needs and will
+              maximize your employees time spent actually getting trained. We're happy to customize as
+              needed:
+            </p>
 
-              {/* CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="mt-8"
-              >
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold rounded-xl text-slate-900 bg-yellow-500 hover:bg-yellow-400 hover:shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group"
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 md:gap-y-4 mb-10 text-left w-full">
+              {[
+                'Virtual or Onsite',
+                'Hands-on',
+                'Classes Experience',
+                'Procedural',
+                'Compliance Based',
+                'OSHA, ANSI, NATE',
+                'Authorized, competent, and qualified person training levels',
+                'Initial & Refresher',
+              ].map((item, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.3 + i * 0.05 }}
+                  className="flex items-start gap-3 text-slate-200"
                 >
-                  Request a Quote
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </motion.div>
+                  <CheckCircle className="mt-0.5 flex-shrink-0 w-4 h-4 text-yellow-500" />
+                  <span className="text-base font-medium">{item}</span>
+                </motion.li>
+              ))}
+            </ul>
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-bold rounded-xl text-slate-900 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 shadow-[0_0_30px_rgba(234,179,8,0.15)] hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] transition-all uppercase tracking-wide group"
+              >
+                Request a Quote
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
