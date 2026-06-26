@@ -384,10 +384,12 @@ const Reviews = () => {
                 <p className="text-slate-400 text-lg">No testimonials yet. Be the first to leave a testimonial!</p>
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 gap-6">
+              <div className="columns-1 sm:columns-2 gap-6">
                 <AnimatePresence>
                   {reviews.map((review, index) => (
-                    <ReviewCard key={review.id} review={review} index={index} isAdmin={isAdmin} onDelete={handleDeleteReview} />
+                    <div key={review.id} className="break-inside-avoid mb-6 inline-block w-full">
+                      <ReviewCard review={review} index={index} isAdmin={isAdmin} onDelete={handleDeleteReview} />
+                    </div>
                   ))}
                 </AnimatePresence>
               </div>
