@@ -9,6 +9,7 @@ import { client, isSanityConfigured } from '../sanityClient';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [drafts, setDrafts] = useState([]);
   const [formData, setFormData] = useState({ name: '', jobTitle: '', rating: 0, text: '' });
   const [success, setSuccess] = useState(false);
@@ -31,7 +32,11 @@ const Reviews = () => {
   }, []);
 
   const fetchReviews = () => {
-    if (!isSanityConfigured) return;
+    if (!isSanityConfigured) {
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
     const query = '*[_type == "testimonial" && !(_id in path("drafts.**"))] | order(date desc, _createdAt desc)';
     client.fetch(query, {}, { perspective: 'raw' })
       .then((data) => {
@@ -49,6 +54,9 @@ const Reviews = () => {
       })
       .catch((err) => {
         console.error("Sanity fetch error:", err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -379,7 +387,27 @@ const Reviews = () => {
               What Our Students and Clients Say
             </h2>
             
-            {reviews.length === 0 ? (
+            {isLoading ? (
+              <div className="grid sm:grid-cols-2 gap-6 animate-pulse">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="bg-slate-800 rounded-xl p-6 h-64 border border-slate-700 flex flex-col justify-between">
+                    <div>
+                      <div className="w-8 h-8 bg-slate-700 rounded-full mb-4 opacity-50 absolute right-6 top-6"></div>
+                      <div className="flex gap-1 mb-4">
+                        {[1,2,3,4,5].map(s => <div key={s} className="w-4 h-4 bg-slate-700 rounded-full"></div>)}
+                      </div>
+                      <div className="h-3 bg-slate-700 rounded w-full mb-2"></div>
+                      <div className="h-3 bg-slate-700 rounded w-5/6 mb-2"></div>
+                      <div className="h-3 bg-slate-700 rounded w-4/6 mb-6"></div>
+                    </div>
+                    <div className="border-t border-slate-700 pt-4">
+                      <div className="h-4 bg-slate-700 rounded w-1/3 mb-2"></div>
+                      <div className="h-3 bg-slate-700 rounded w-1/4"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : reviews.length === 0 ? (
               <div className="text-center p-12 bg-slate-800 rounded-xl border border-slate-700">
                 <p className="text-slate-400 text-lg">No testimonials yet. Be the first to leave a testimonial!</p>
               </div>
