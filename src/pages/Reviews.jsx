@@ -135,6 +135,19 @@ const Reviews = () => {
     }
   };
 
+  const handleDeleteReview = async (id) => {
+    if (!isSanityConfigured) return;
+    if (window.confirm("Are you sure you want to delete this published testimonial?")) {
+      try {
+        await client.delete(id);
+        fetchReviews();
+      } catch (err) {
+        console.error("Delete review failed:", err);
+        alert("Failed to delete review.");
+      }
+    }
+  };
+
   // Helper to send email notification via Vercel serverless function
   const sendEmailNotification = async (testimonialData) => {
     try {
@@ -335,8 +348,7 @@ const Reviews = () => {
                       </div>
 
                       <div className="flex justify-between items-center pt-2 border-t border-slate-800/50">
-                        <span className="text-xs text-slate-500">Submitted: {draft.date}</span>
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 ml-auto">
                           <button 
                             onClick={() => handlePublish(draft)}
                             className="bg-green-600 hover:bg-green-500 text-white font-bold px-4 py-2 rounded text-xs flex items-center gap-1 uppercase tracking-wider"
@@ -375,7 +387,7 @@ const Reviews = () => {
               <div className="grid sm:grid-cols-2 gap-6">
                 <AnimatePresence>
                   {reviews.map((review, index) => (
-                    <ReviewCard key={review.id} review={review} index={index} />
+                    <ReviewCard key={review.id} review={review} index={index} isAdmin={isAdmin} onDelete={handleDeleteReview} />
                   ))}
                 </AnimatePresence>
               </div>

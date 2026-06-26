@@ -1,9 +1,9 @@
 import React from 'react';
-import { Quote } from 'lucide-react';
+import { Quote, Trash2 } from 'lucide-react';
 import StarRating from './StarRating';
 import { motion } from 'framer-motion';
 
-const ReviewCard = ({ review, index }) => {
+const ReviewCard = ({ review, index, isAdmin, onDelete }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -24,13 +24,23 @@ const ReviewCard = ({ review, index }) => {
       </p>
       
       <div className="mt-auto border-t border-slate-700 pt-4 cursor-default">
-        <h4 className="font-bold text-white text-lg">{review.name}</h4>
-        {review.jobTitle && (
-          <p className="text-yellow-500 text-sm font-medium">{review.jobTitle}</p>
-        )}
-        {review.date && (
-          <p className="text-slate-500 text-xs mt-1">{review.date}</p>
-        )}
+        <div className="flex justify-between items-end">
+          <div>
+            <h4 className="font-bold text-white text-lg">{review.name}</h4>
+            {review.jobTitle && (
+              <p className="text-yellow-500 text-sm font-medium">{review.jobTitle}</p>
+            )}
+          </div>
+          {isAdmin && onDelete && (
+            <button
+              onClick={() => onDelete(review.id)}
+              className="text-red-500 hover:text-red-400 p-2 rounded-lg hover:bg-red-500/10 transition-colors"
+              title="Delete Review"
+            >
+              <Trash2 className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
     </motion.div>
   );
